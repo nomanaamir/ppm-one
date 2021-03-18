@@ -1,0 +1,73 @@
+.signUpContainer {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    // background: #0000006e;
+    &_card {
+        background-color: white;
+        width: 35%;
+        max-width: 850px;
+        border: 1px solid #666666;
+        padding: 42px 0;
+        &-header {
+            text-align: center;
+            h1 {
+                color: #7e7e7e;
+                margin-bottom: 2px;
+            }
+            p {
+                color: #5a5a5a;
+                font-size: 18px;
+            }
+        }
+        &-body {
+            width: 74%;
+            margin: 18px auto;
+            min-width: 200px;
+            &_field-container {
+                display: flex;
+                flex-direction: column;
+                margin-bottom: 16px;
+                & > .label {
+                    color: #707070;
+                    font-size: 15px;
+                    -webkit-text-stroke: 0.025em rgba(51, 51, 51, 0.5);
+                    margin-bottom: 3px;
+                }
+                & > .textField {
+                    height: 29px;
+                    border-radius: 7px;
+                    border: 1.5px solid #7dabfc;
+                    background: #e5eefe;
+                    outline: 0;
+                    padding: 0 10px;
+                    font-size: 16px;
+                }
+            }
+        }
+        &-footer {
+            display: flex;
+            justify-content: flex-end;
+            padding: 0 20px;
+            .signUp-actions {
+                width: 230px;
+                display: flex;
+                justify-content: space-between;
+                &_btn {
+                    background: white;
+                    width: 100px;
+                    height: 33px;
+                    border: 1px solid #7c7c7c;
+                    color: #707070;
+                    font-size: 15px;
+                    -webkit-text-stroke: 0.025em rgba(51, 51, 51, 0.5);
+                    border-radius: 3px;
+                    box-shadow: 2px 2px 3px;
+                    cursor: pointer;
+                    outline: none;
+                }
+            }
+        }
+    }
+}

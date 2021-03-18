@@ -1,4 +1,18 @@
-.App {
+*{
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+.signInContainer, .signUpContainer{
+  background-image: url("./assets/PPMone Login Image.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed;
+  background-size: cover;
+  image-rendering: -webkit-optimize-contrast
+}
+
+/* .App {
   text-align: center;
 }
 
@@ -35,4 +49,4 @@
   to {
     transform: rotate(360deg);
   }
-}
+} */
