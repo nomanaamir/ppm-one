@@ -3,7 +3,7 @@ import logo from '../../assets/PPMone Logo Grey and Blue.png';
 
 import { connect } from 'react-redux';
 
-import { signUp } from '../../Store/Middlewares/middlewares';
+import {  signUpSaveData } from '../../Store/Middlewares/middlewares';
 function SignUpScreen(props) {
     const [name, setName] = useState('');
     const [company, setCompany] = useState('');
@@ -18,16 +18,13 @@ function SignUpScreen(props) {
 
 
     const register = () => {
+
         const user = {
             name,
             company,
             email
         }
-        console.log('name', name)
-        console.log('company', company)
-        console.log('email', email)
-        console.log('password', password)
-        console.log('repassword', repassword)
+     
         if (name === '' || company === '' || email === '' || password === '' || repassword === '') {
             alert('All fields required!')
             return
@@ -35,7 +32,9 @@ function SignUpScreen(props) {
             if (password !== repassword) {
                 alert('Password must match!')
             } else {
-                props.signUpAction(user, email, password)
+                props.signUpSaveDataAction(user, email, password)
+                props.history.push('/paymentDetails');
+
 
             }
         }
@@ -103,12 +102,12 @@ function SignUpScreen(props) {
 
                     <div className="signUpContainer_card-body_field-container">
                         <span className="label">Enter Password</span>
-                        <input className="textField password-field" type="text" data-active={isPasswordValidate} onChange={typePassword} />
+                        <input className="textField password-field" type="password" data-active={isPasswordValidate} onChange={typePassword} />
                     </div>
 
                     <div className="signUpContainer_card-body_field-container">
                         <span className="label">Re-enter Password</span>
-                        <input className="textField rePassword-field" type="text" data-active={isPasswordMatch} onChange={typeRePassword} />
+                        <input className="textField rePassword-field" type="password" data-active={isPasswordMatch} onChange={typeRePassword} />
                     </div>
                 </div>
 
@@ -137,7 +136,7 @@ function mapStateToProps(state) {
 }
 function mapDispatchToProps(dispatch) {
     return ({
-        signUpAction: (user, email, password) => { dispatch(signUp(user, email, password)) },
+        signUpSaveDataAction: (user, email, password) => { dispatch(signUpSaveData(user, email, password)) },
 
     })
 }

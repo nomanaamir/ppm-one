@@ -7,6 +7,8 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import SignInScreen from './screens/sign-in/index';
 import SignUpScreen from './screens/sign-up/index';
 import DashboardScreen from './screens/dashboard/index';
+import PaymentDetailsScreen from './screens/payment-details/index';
+
 
 function App() {
   return (
@@ -16,6 +18,7 @@ function App() {
           <Route exact path="/" component={SignInScreen} />
           <Route path="/signUp" component={SignUpScreen} />
           <Route path="/dashboard" component={DashboardScreen} />
+          <Route path="/paymentDetails" component={PaymentDetailsScreen} />
         </div>
       </Router>
     </div>

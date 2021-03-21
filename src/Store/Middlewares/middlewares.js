@@ -5,10 +5,10 @@ let redirect = {};
 let auth = firebase.auth();
 let database = firebase.database().ref();
 
+let signUpTemplate = {}
 
 
 export function setNavigationProps(navigation) {
-    console.log('navigation:', navigation)
     return dispatch => {
         redirect = navigation;
 
@@ -47,9 +47,23 @@ export function microsoftLogIn() {
                     email: mail,
                     company: ''
                 }
-                console.log('result', displayName, mail, uid)
+
+                const paymentDetails = {
+                    fullName: '',
+                    address: '',
+                    city: '',
+                    state: '',
+                    postCode: '',
+                    country: '',
+        
+                    cardNumber: '',
+                    cardholderName: '',
+                    expiryDate: '',
+                    cvv: '',
+                }
 
                 dispatch(setUserData(uid, user))
+                dispatch(setUserPaymentDetails(uid, paymentDetails))
 
             })
             .catch((error) => {
@@ -78,14 +92,17 @@ export function signIn(email, password) {
     }
 }
 
-export function signUp(user, email, password) {
+export function signUp(paymentDetails) {
 
     return dispatch => {
+
         dispatch({ type: ActionTypes.SIGNUP_SUCCESS, payload: true })
 
-        auth.createUserWithEmailAndPassword(email, password).then(ev => {
+        auth.createUserWithEmailAndPassword(signUpTemplate.email, signUpTemplate.password).then(ev => {
 
-            dispatch(setUserData(ev.user.uid, user))
+            dispatch(setUserData(ev.user.uid, signUpTemplate.user))
+            dispatch(setUserPaymentDetails(ev.user.uid, paymentDetails))
+
 
         }).catch(error => {
             alert(error.message)
@@ -96,16 +113,41 @@ export function signUp(user, email, password) {
 
     }
 }
+
+export function signUpSaveData(user, email, password) {
+
+    return dispatch => {
+        signUpTemplate = {
+            user,
+            email,
+            password
+        }
+
+    }
+}
+
 export function setUserData(uid, user) {
     // Object.assign({}, user, { profileImg: url, uid: ev.user.uid })
     return dispatch => {
         database.child(`users/${uid}`).set(Object.assign({}, user, { uid: uid })).then(() => {
+            // dispatch({ type: ActionTypes.SIGNUP_SUCCESS, payload: false })
+            // redirect.push('/dashboard')
+        })
+
+    }
+}
+
+export function setUserPaymentDetails(uid, paymentDetails) {
+    // Object.assign({}, user, { profileImg: url, uid: ev.user.uid })
+    return dispatch => {
+        database.child(`paymentDetails/${uid}`).set(Object.assign({}, paymentDetails, { uid: uid })).then(() => {
             dispatch({ type: ActionTypes.SIGNUP_SUCCESS, payload: false })
             redirect.push('/dashboard')
         })
 
     }
 }
+
 
 export function logOut() {
     // Object.assign({}, user, { profileImg: url, uid: ev.user.uid })
