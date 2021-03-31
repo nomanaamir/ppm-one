@@ -5,7 +5,9 @@ const InitialState = {
     microsoft_user: {},
     signIn_success: false,
     signUp_success: false,
-    signUp_error: ''
+    signUp_error: '',
+    
+    user_data:{}
 }
 export default (state = InitialState, action) => {
     switch (action.type) {
@@ -18,6 +20,8 @@ export default (state = InitialState, action) => {
             return ({ ...state, signUp_error: action.payload });
         case ActionTypes.SIGNIN_SUCCESS:
             return ({ ...state, signIn_success: action.payload });
+        case ActionTypes.GET_USER_DATA:
+            return ({ ...state, user_data: action.payload });
 
         default:
             return state;

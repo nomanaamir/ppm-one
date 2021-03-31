@@ -4,12 +4,13 @@ import firebase from 'firebase';
 let redirect = {};
 let auth = firebase.auth();
 let database = firebase.database().ref();
-
+let currentUser = {}
 let signUpTemplate = {}
 
 
 export function setNavigationProps(navigation) {
     return dispatch => {
+        console.log('Navigation,', navigation)
         redirect = navigation;
 
 
@@ -55,7 +56,7 @@ export function microsoftLogIn() {
                     state: '',
                     postCode: '',
                     country: '',
-        
+
                     cardNumber: '',
                     cardholderName: '',
                     expiryDate: '',
@@ -79,9 +80,10 @@ export function signIn(email, password) {
         dispatch({ type: ActionTypes.SIGNIN_SUCCESS, payload: true })
 
         auth.signInWithEmailAndPassword(email, password).then(() => {
+            dispatch(getCurrentUserData())
             dispatch({ type: ActionTypes.SIGNIN_SUCCESS, payload: false })
 
-            redirect.push('/dashboard')
+            redirect.push('/home/dashboard')
 
         }).catch(error => {
             alert(error.message)
@@ -142,13 +144,36 @@ export function setUserPaymentDetails(uid, paymentDetails) {
     return dispatch => {
         database.child(`paymentDetails/${uid}`).set(Object.assign({}, paymentDetails, { uid: uid })).then(() => {
             dispatch({ type: ActionTypes.SIGNUP_SUCCESS, payload: false })
-            redirect.push('/dashboard')
+            redirect.push('/home/dashboard')
         })
 
     }
 }
 
+export function getCurrentUser() {
+    return new Promise((reslove, reject) => {
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                reslove(user);
+            }
+        });
+    })
+}
+export function getCurrentUserData() {
+    return dispatch => {
+        getCurrentUser().then(user => {
+            console.log(' getCurrentUser()', user)
+            if (user) {
+                database.child(`users/${user.uid}`).on('value', ev => {
+                    if (ev.val()) {
+                        dispatch({ type: ActionTypes.GET_USER_DATA, payload: ev.val() })
+                    }
+                })
+            }
+        })
 
+    }
+}
 export function logOut() {
     // Object.assign({}, user, { profileImg: url, uid: ev.user.uid })
     return dispatch => {

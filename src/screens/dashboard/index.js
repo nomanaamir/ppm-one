@@ -1,14 +1,16 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 
 import { logOut } from '../../Store/Middlewares/middlewares';
 
-function DashboardScreen(props) {
+function DashboardScreen() {
+    useEffect(() => {
 
+    }, []);
     return (
         <div className="dashboardContainer">
-            <h2>Dashboard</h2>
-            <button onClick={() => props.logOutAction()}>Log Out</button>
+            <h2>Dashboard Screen</h2>
+            
         </div>
     );
 }

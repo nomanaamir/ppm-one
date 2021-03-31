@@ -152,14 +152,14 @@ function PaymentDetailsScreen(props) {
 
                 </div>
 
-                <div className="paymentContainer_card-footer">
-                    <div className="signUp-actions">
-                        <button className="signUp-actions_btn" onClick={() => props.history.push('/')}>Cancel</button>
+                <div className="widget-footer" style={{height: 'auto'}}>
+                    <div className="widget-footer_actions">
+                        <button className="widget-footer_actions--btn" onClick={() => props.history.push('/')}>Cancel</button>
                         {
                             props.isLoading === true ?
-                                <button className="signUp-actions_btn">  <div className="loader"></div></button>
+                                <button className="widget-footer_actions--btn">  <div className="loader"></div></button>
                                 :
-                                <button className="signUp-actions_btn" onClick={register}> Submit</button>
+                                <button className="widget-footer_actions--btn" onClick={register}> Submit</button>
                         }
                     </div>
                 </div>
