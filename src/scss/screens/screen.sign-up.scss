@@ -6,8 +6,7 @@
     // background: #0000006e;
     &_card {
         background-color: white;
-        width: 35%;
-        max-width: 850px;
+        width: 445px;
         border: 1px solid #666666;
         padding: 42px 0;
         &-header {
@@ -41,8 +40,34 @@
                     border: 1.5px solid #7dabfc;
                     background: #e5eefe;
                     outline: 0;
-                    padding: 0 10px;
+                    padding: 0 24px 0 17px;
                     font-size: 16px;
+                    // background-image: ;
+
+                    &.email-field {
+                        &[data-active="true"] {
+                            background-image: url("../../assets/check.png");
+                            background-repeat: no-repeat;
+                            background-position: calc(100% - 10px) center;
+                            background-size: 13px;
+                        }
+                    }
+                    &.password-field {
+                        &[data-active="true"] {
+                            background-image: url("../../assets/check.png");
+                            background-repeat: no-repeat;
+                            background-position: calc(100% - 10px) center;
+                            background-size: 13px;
+                        }
+                    }
+                    &.rePassword-field {
+                        &[data-active="true"] {
+                            background-image: url("../../assets/check.png");
+                            background-repeat: no-repeat;
+                            background-position: calc(100% - 10px) center;
+                            background-size: 13px;
+                        }
+                    }
                 }
             }
         }
@@ -66,6 +91,9 @@
                     box-shadow: 2px 2px 3px;
                     cursor: pointer;
                     outline: none;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
                 }
             }
         }

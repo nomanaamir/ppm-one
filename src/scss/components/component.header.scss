@@ -1,0 +1,48 @@
+.header-container {
+    min-height: 70px;
+    height: 75px;
+    padding: 0 15px;
+    display: flex;
+    justify-content: space-between;
+    &_col {
+        display: flex;
+        align-items: center;
+        height: 100%;
+        .screen-indicator {
+            font-size: 25px;
+            text-transform: uppercase;
+            color: #707070;
+            -webkit-text-stroke: 0.015em rgba(51, 51, 51, 0.5);
+            letter-spacing: 1px;
+            margin-left: 6px;
+        }
+        .user-widget {
+            display: flex;
+            align-items: center;
+            &_icon-frame {
+                width: 56px;
+                height: 56px;
+                background: red;
+                border-radius: 100%;
+                &--img {
+                    border-radius: 100%;
+                    height: inherit;
+                    width: inherit;
+                }
+            }
+            &_info {
+                margin-left: 8px;
+                &--name {
+                    color: #585858;
+                    -webkit-text-stroke: 0.025em rgba(51, 51, 51, 0.5);
+                    font-size: 18px;
+                    text-transform: capitalize;
+                }
+                &--profession {
+                    color: #555555;
+                    font-size: 15px;
+                }
+            }
+        }
+    }
+}

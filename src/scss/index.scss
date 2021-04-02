@@ -1,2 +1,10 @@
-@import './screens/screen.sign-in.scss';
-@import './screens/screen.sign-up.scss';
+@import "./screens/screen.sign-in.scss";
+@import "./screens/screen.sign-up.scss";
+@import "./screens/screen.payment-details.scss";
+
+// components
+@import "./components/component.navigation-menu.scss";
+@import "./components/component.header.scss";
+@import "./components/component.add-project-widget.scss";
+@import "./components/component.widget-footer.scss";
+
