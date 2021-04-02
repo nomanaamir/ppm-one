@@ -4,8 +4,15 @@
         border-bottom: 1px dashed #707070;
     }
     .project-widget_col {
-        width: 60%;
         border-right: 1px dashed #707070;
+        &.width-60 {
+            width: 60%;
+        }
+        &.width-40 {
+            border-right: none;
+
+            width: 40%;
+        }
         .project-info {
             // background: red;
             padding-right: 12px;
@@ -40,7 +47,6 @@
         }
     }
     .project-schedule {
-        width: 40%;
         padding: 0 18px;
         .field-row--label {
             span {
@@ -53,6 +59,99 @@
             font-size: 15px;
             -webkit-text-stroke: 0.025em rgba(51, 51, 51, 0.5);
             margin-bottom: 26px;
+        }
+    }
+    .forecast-burndown {
+        padding: 10px 18px;
+        border-top: 1px dashed #707070;
+        &_heading {
+            color: #5a5a5a;
+            text-transform: uppercase;
+            font-size: 15px;
+            -webkit-text-stroke: 0.025em rgba(51, 51, 51, 0.5);
+            margin-bottom: 26px;
+        }
+        &_row {
+            display: flex;
+            align-items: center;
+            position: relative;
+            max-height: 232px;
+            overflow-y: auto;
+            &::-webkit-scrollbar {
+                width: 4px;
+                &-track{
+                    background: #f1f1f1; 
+                }
+                &-thumb{
+                    background: #888; 
+                    &:hover{
+                        background: #555; 
+                    }
+                }
+              }
+              
+            //   ::-webkit-scrollbar-track {
+            //     background: #f1f1f1; 
+            //   }
+               
+            //   ::-webkit-scrollbar-thumb {
+            //     background: #888; 
+            //   }
+
+            //   ::-webkit-scrollbar-thumb:hover {
+            //     background: #555; 
+            //   }
+            &--col {
+                &-1 {
+                    width: 80%;
+                }
+                &-2 {
+                    width: 20%;
+                    position: absolute;
+                    right: 0;
+                    top: 10px;
+                    button {
+                        background: white;
+                        width: 100%;
+                        height: 28px;
+                        border: 1px solid #7c7c7c;
+                        color: #707070;
+                        font-size: 15px;
+                        -webkit-text-stroke: 0.025em rgba(51, 51, 51, 0.5);
+                        border-radius: 3px;
+                        box-shadow: 2px 2px 3px;
+                        cursor: pointer;
+                        outline: none;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                    }
+                }
+            }
+        }
+        &_date {
+            width: 40%;
+            display: flex;
+            align-items: center;
+            span {
+                font-size: 13px;
+                color: #5a5a5a;
+                text-transform: uppercase;
+                -webkit-text-stroke: 0.025em rgba(51, 51, 51, 0.5);
+            }
+        }
+        &_field {
+            width: 30%;
+            margin: 0 8px;
+            input {
+                width: 100%;
+                border: none;
+                height: 28px;
+                outline: none;
+                color: #5a5a5a;
+                font-size: 14px;
+                -webkit-text-stroke: 0.015em rgba(51, 51, 51, 0.5);
+            }
         }
     }
     .field-row {
@@ -93,21 +192,42 @@
                 height: 120px;
                 resize: none;
             }
-            .date-picker {
-                width: 18px;
+            &.date-picker-row {
                 display: flex;
                 align-items: center;
-                justify-content: center;
-                padding: 0 9px;
-                color: transparent;
-                &:focus {
+
+                .date-picker {
+                    width: 18px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    padding-right: 8px;
+                    color: transparent;
+                    &:focus {
+                        outline: none;
+                    }
+                }
+                .display-date {
                     outline: none;
+                    color: #5a5a5a;
+                    font-size: 14px;
+                    -webkit-text-stroke: 0.015em rgba(51, 51, 51, 0.5);
+                    background: white;
+                    height: 28px;
+                    display: flex;
+                    align-items: center;
+                    width: inherit;
+                    padding-left: 8px;
                 }
             }
             input[type="date" i]::-webkit-calendar-picker-indicator {
                 background-size: 16px;
                 padding: 0 !important;
                 margin: 0 !important;
+                &:focus {
+                    outline-offset: 0 !important;
+                    outline: none !important;
+                }
             }
         }
     }
