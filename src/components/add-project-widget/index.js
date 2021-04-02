@@ -26,7 +26,9 @@ function AddProjectWidget() {
     }
 
     function selectEndData(e) {
-        setForecastBreakdown([])
+
+        // setForecastBreakdown([])
+
         const { value } = e.target
 
         const filteredDate = new Date(value)
@@ -38,14 +40,22 @@ function AddProjectWidget() {
         const selectedDate = getDate + '-' + getMonth + '-' + getYear
         setEndDateDisplay(selectedDate)
 
-      
+        // forecast burndown set dates ranges
         let sample = getRangeDates(startDate, new Date(value));
-        let duplicateSample = sample;
-        const populateFirstMonth = duplicateSample.shift();
+        let duplicateSample = sample; // duplicate array to prevent changes to original array
+        let populateFirstMonth = {};
+        if (forecastBreakdown.length === 0) {
+            populateFirstMonth = duplicateSample.shift(); // populate first month from range dates array
+        }
+
         setDateRange(sample)
         console.log(dateRange);
         console.log('populateFirstMonth', populateFirstMonth)
-        setForecastBreakdown(forecastBreakdown => [...forecastBreakdown, populateFirstMonth]);
+
+        // by default populate first month
+        if (forecastBreakdown.length === 0) {
+            setForecastBreakdown(forecastBreakdown => [...forecastBreakdown, populateFirstMonth]);
+        }
     }
     const getRangeDates = (fromDate, toDate) => {
 
@@ -59,7 +69,13 @@ function AddProjectWidget() {
             const monthLimit = year === toYear ? toMonth : 11;
             for (; month <= monthLimit; month++) {
                 const manth = months[month]
-                getMonths.push({ year, manth })
+                console.log('getMonths', getMonths)
+                console.log('dateRange', forecastBreakdown)
+                // console.log(!dateRange.includes({ year, manth }))
+                // console.log(forecastBreakdown.indexOf({ year, manth }))
+                if (!forecastBreakdown.some(e => ((e.year === year) && (e.manth === manth)))) {
+                    getMonths.push({ year: year, manth })
+                }
             }
         }
         return getMonths;

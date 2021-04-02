@@ -72,7 +72,6 @@
             margin-bottom: 26px;
         }
         &_row {
-            display: flex;
             align-items: center;
             position: relative;
             max-height: 232px;
@@ -112,7 +111,7 @@
                     top: 10px;
                     button {
                         background: white;
-                        width: 100%;
+                        width: 80px;
                         height: 28px;
                         border: 1px solid #7c7c7c;
                         color: #707070;
@@ -125,6 +124,8 @@
                         display: flex;
                         justify-content: center;
                         align-items: center;
+                        position: fixed;
+                        
                     }
                 }
             }
