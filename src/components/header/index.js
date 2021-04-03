@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import logo from '../../assets/PPMone Logo Grey and Blue.png'
 import avatar from '../../assets/avatar.png'
-
-import { NavLink, useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 function Header(props) {
     const { user } = props
     const location = useLocation();
@@ -20,7 +19,7 @@ function Header(props) {
                     <img src={logo} height="40px" alt="" />
                 </div>
                 <div>
-                    <span className="screen-indicator">{screenName}</span>
+                    <span className="screen-indicator">{screenName || 'portfolio dashboard'}</span>
                 </div>
             </div>
 

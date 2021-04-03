@@ -12,7 +12,7 @@ import ReportingScreen from '../..//screens/reporting/index';
 import AddNewProjectScreen from '../..//screens/add-new-project/index'
 // components
 import NavigationMenu from '../../components/navigation-menu/index'
-import Header from '../..//components/header/index';
+import Header from '../../components/header/index';
 
 //middlewares
 import { getCurrentUserData, setNavigationProps } from '../../Store/Middlewares/middlewares';
@@ -40,7 +40,7 @@ function HomeScreen(props) {
                         <Route path="/home/projects" component={ProjectsScreen} />
                         <Route path="/home/finance" component={FinanceScreen} />
                         <Route path="/home/reporting" component={ReportingScreen} />
-                        <Route path="/home/add-new-project" component={AddNewProjectScreen} />
+                        <Route path="/home/add-new-project/add-project" component={AddNewProjectScreen} />
 
                     </div>
                 </div>

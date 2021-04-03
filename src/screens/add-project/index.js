@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
 //components
 import AddProjectWidget from '../../components/add-project-widget/index';
-function AddProjectScreen() {
+function AddProjectScreen(props) {
 
     return (
-        <div className="add-project-container">
-            <AddProjectWidget />
+        <div className="add-project-container" style={{height: '100%'}}>
+            <AddProjectWidget getProps={props}/>
         </div>
     );
 }

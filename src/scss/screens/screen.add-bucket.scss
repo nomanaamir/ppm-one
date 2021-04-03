@@ -1,0 +1,16 @@
+.bucket-container {
+    position: relative;
+    height: inherit;
+    p {
+        padding-left: 15px;
+        cursor: pointer;
+        color: #5a5a5a;
+        font-size: 14px;
+        -webkit-text-stroke: 0.025em rgba(51, 51, 51, 0.5);
+        margin-bottom: 16px;
+    }
+    &_actions{
+        display: flex;
+        justify-content: center;
+    }
+}

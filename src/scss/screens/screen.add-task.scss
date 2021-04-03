@@ -1,0 +1,34 @@
+.task-container {
+    position: relative;
+    height: inherit;
+    &_row {
+        display: flex;
+        padding: 0 10px;
+        &--col {
+            width: 50%;
+            .field-row {
+                justify-content: flex-end;
+                position: relative;
+
+                .checklist {
+                    &-label {
+                        position: absolute;
+                        left: 0;
+                        top: 6px;
+                    }
+                    &-input {
+                        input {
+                            margin-bottom: 8px;
+                        }
+                        .add-task-btn {
+                            color: #5a5a5a;
+                            font-size: 14px;
+                            -webkit-text-stroke: 0.025em rgba(51, 51, 51, 0.5);
+                            cursor: pointer;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

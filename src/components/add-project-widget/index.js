@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-function AddProjectWidget() {
+function AddProjectWidget(props) {
     const [startDateDisplay, setStartDateDisplay] = useState('');
     const [endDateDisplay, setEndDateDisplay] = useState('');
 
@@ -234,7 +234,10 @@ function AddProjectWidget() {
                 <div className="widget-footer_actions">
                     <button className="widget-footer_actions--btn">Cancel</button>
 
-                    <button className="widget-footer_actions--btn" > Next</button>
+                    <button className="widget-footer_actions--btn" onClick={() => props.getProps.history.push({
+                        pathname: '/home/add-new-project/add-bucket',
+                        state: 'add new bucket'
+                    })}> Next</button>
 
                 </div>
             </div>
