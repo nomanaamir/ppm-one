@@ -3,12 +3,19 @@ import { useLocation } from 'react-router-dom'
 
 function AddTaskScreen(props) {
     const location = useLocation();
-    const [checklist, setChecklist] = useState(['list'])
+    const [checklist, setChecklist] = useState([])
+    const [writeChecklist, setWriteChecklist] = useState('')
+
     useEffect(() => {
 
         console.log('add task location-=-=-', location);
 
     }, []);
+    const addNewCheckList = () => {
+        setChecklist(checklist => [...checklist, { checklist: writeChecklist, active: false }])
+
+        setWriteChecklist('')
+    }
     return (
         <div className="task-container">
             <div className="child-header">
@@ -37,14 +44,25 @@ function AddTaskScreen(props) {
                     <div className="field-row checklist">
                         <div className="field-row--label checklist-label"> <span>Task checklist</span></div>
                         <div className="field-row--input checklist-input">
+                            <input type="text" value={writeChecklist} onChange={(e) => setWriteChecklist(e.target.value)} />
+                            <p className="add-task-btn" onClick={() => addNewCheckList()}>Add new checklist item...</p>
                             {
                                 checklist.map((item, index) => {
                                     return (
-                                        <input type="text" key={index} />
+                                        <div className="checklist-item-row" key={index}>
+                                            <div className="checklist-item-row_circle">
+
+                                            </div>
+                                            <span className="checklist-item-row_text">
+                                                {item.checklist}
+                                            </span>
+                                        </div>
+
                                     )
                                 })
                             }
-                            <p className="add-task-btn" onClick={() => setChecklist(checklist => [...checklist, 'list'])}>Add new checklist item...</p>
+
+
                         </div>
                         {/* <p>Add new task...</p> */}
                     </div>
