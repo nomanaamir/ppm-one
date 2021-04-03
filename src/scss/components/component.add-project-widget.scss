@@ -175,6 +175,8 @@
     }
     &--input {
         width: 65%;
+        
+        position: relative;
         &.small {
             width: 134px;
         }
@@ -235,6 +237,14 @@
                 outline-offset: 0 !important;
                 outline: none !important;
             }
+        }
+        &_currency{
+            position: absolute;
+            top: 6px;
+            color: #5a5a5a;
+            font-size: 14px;
+            -webkit-text-stroke: 0.015em rgba(51, 51, 51, 0.5);
+            left: 5px;
         }
     }
 }

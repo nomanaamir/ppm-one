@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-
+import { setProjectTemplate, projectTemplate } from '../../Store/Middlewares/middlewares'
+import { connect } from 'react-redux';
 function AddProjectWidget(props) {
     const [startDateDisplay, setStartDateDisplay] = useState('');
     const [endDateDisplay, setEndDateDisplay] = useState('');
@@ -10,7 +11,18 @@ function AddProjectWidget(props) {
     const [dateRange, setDateRange] = useState([]);
     const [forecastBreakdown, setForecastBreakdown] = useState([])
 
-    const months = ['Jan', 'Feb', 'March', 'April', 'May', 'Jun', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec']
+    const months = ['Jan', 'Feb', 'March', 'April', 'May', 'Jun', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
+
+    const [projectNumber, setProjectNumber] = useState('');
+    const [projectName, setProjectName] = useState('');
+    const [projectDesc, setProjectDesc] = useState('');
+    const [forecastHours, setForecastHours] = useState('');
+    const [projectServices, setProjectServices] = useState('');
+    const [contingency, setContingency] = useState('');
+    const [timeMaterials, setTimeMaterials] = useState(false);
+    const [fixedPrice, setFixedPrice] = useState(false);
+
+
     function selectStartData(e) {
 
         const { value } = e.target
@@ -74,7 +86,7 @@ function AddProjectWidget(props) {
                 // console.log(!dateRange.includes({ year, manth }))
                 // console.log(forecastBreakdown.indexOf({ year, manth }))
                 if (!forecastBreakdown.some(e => ((e.year === year) && (e.manth === manth)))) {
-                    getMonths.push({ year: year, manth })
+                    getMonths.push({ year: year, manth, financial: undefined, effort: undefined })
                 }
             }
         }
@@ -94,6 +106,69 @@ function AddProjectWidget(props) {
 
 
     }
+    const saveProjectDetails = () => {
+        const project = {
+            number: projectNumber,
+            name: projectName,
+            description: projectDesc,
+            forecastHours,
+            projectServices,
+            contingency,
+            timeMaterials,
+            fixedPrice,
+            startDateDisplay,
+            endDateDisplay,
+            forecastBreakdown,
+            forecastBurndownRange: dateRange,
+            startDate,
+            endDate
+        }
+        props.setProjectTemplateAction(project)
+        props.getProps.history.push({
+            pathname: '/home/add-new-project/add-bucket',
+            state: 'add new bucket'
+        })
+    }
+    useEffect(() => {
+        let number = 1;
+        let code = 'PRO';
+        let singleZero = '0';
+        let doubleZero = '00';
+        let proNum = code + doubleZero + number;
+        setProjectNumber(proNum)
+
+        // set template values back to field while routing change
+        const {
+            name,
+            description,
+            forecastHours,
+            projectServices,
+            contingency,
+            timeMaterials,
+            fixedPrice,
+            startDateDisplay,
+            endDateDisplay,
+            forecastBreakdown,
+            forecastBurndownRange,
+            startDate,
+            endDate
+        } = projectTemplate
+        setProjectName(name || '')
+        setProjectDesc(description || '')
+        setForecastHours(forecastHours || '')
+        setProjectServices(projectServices || '')
+        setContingency(contingency || '')
+        setTimeMaterials(timeMaterials || false)
+        setFixedPrice(fixedPrice || false)
+        setStartDateDisplay(startDateDisplay || '')
+        setEndDateDisplay(endDateDisplay || '')
+        setForecastBreakdown(forecastBreakdown?.length > 0 ? forecastBreakdown : [])
+        setDateRange(forecastBurndownRange?.length > 0 ? forecastBurndownRange : [])
+        setStartDate(startDate || '')
+        setEndDate(endDate || '')
+        console.log('forecastBreakdown', forecastBreakdown)
+
+    }, []);
     return (
         <div className="add-project-widget-container">
             <div className="add-project-widget-container_row">
@@ -105,22 +180,22 @@ function AddProjectWidget(props) {
 
                         <div className="field-row">
                             <div className="field-row--label"> <span>project number</span></div>
-                            <div className="field-row--input small">  <input type="text" readOnly /></div>
+                            <div className="field-row--input small">  <input type="text" value={projectNumber} readOnly /></div>
                         </div>
 
                         <div className="field-row">
                             <div className="field-row--label">  <span>project name</span></div>
-                            <div className="field-row--input"> <input type="text" /></div>
+                            <div className="field-row--input"> <input type="text" value={projectName} onChange={e => setProjectName(e.target.value)} /></div>
                         </div>
 
                         <div className="field-row description">
                             <div className="field-row--label">  <span>description</span></div>
-                            <div className="field-row--input"> <textarea type="text" /></div>
+                            <div className="field-row--input"> <textarea type="text" value={projectDesc} onChange={e => setProjectDesc(e.target.value)} /></div>
                         </div>
 
                         <div className="field-row">
                             <div className="field-row--label"><span>forecast hours</span></div>
-                            <div className="field-row--input small"> <input type="text" /></div>
+                            <div className="field-row--input small"> <input type="number" value={forecastHours} onChange={e => setForecastHours(e.target.value)} /></div>
                         </div>
                     </div>
 
@@ -134,12 +209,12 @@ function AddProjectWidget(props) {
                             <p className="project-budget_col--heading">project budget</p>
                             <div className="field-row">
                                 <div className="field-row--label"> <span>project services</span></div>
-                                <div className="field-row--input small">  <input type="text" readOnly /></div>
+                                <div className="field-row--input small"> <span className="field-row--input_currency">$</span> <input type="number" style={{ padding: '0 14px' }} value={projectServices} onChange={e => setProjectServices(e.target.value)} /></div>
                             </div>
 
                             <div className="field-row">
                                 <div className="field-row--label"> <span>contingency</span></div>
-                                <div className="field-row--input small">  <input type="text" readOnly /></div>
+                                <div className="field-row--input small"> <span className="field-row--input_currency">$</span> <input type="number" style={{ padding: '0 14px' }} value={contingency} onChange={e => setContingency(e.target.value)} /></div>
                             </div>
                         </div>
 
@@ -148,12 +223,12 @@ function AddProjectWidget(props) {
 
                             <div className="field-row">
                                 <div className="field-row--label"> <span>time & materials</span></div>
-                                <div className="field-row--input small">  <input type="radio" /> </div>
+                                <div className="field-row--input small">  <input type="radio" value={timeMaterials} checked={timeMaterials === true} onChange={e => { setTimeMaterials(true); setFixedPrice(false) }} /> </div>
                             </div>
 
                             <div className="field-row">
                                 <div className="field-row--label"> <span>fixed price</span></div>
-                                <div className="field-row--input small">  <input type="radio" /></div>
+                                <div className="field-row--input small">  <input type="radio" value={fixedPrice} checked={fixedPrice === true} onChange={e => { setFixedPrice(true); setTimeMaterials(false) }} /></div>
                             </div>
                         </div>
 
@@ -168,7 +243,7 @@ function AddProjectWidget(props) {
 
                     {/* project schedule starts */}
                     <div className="project-schedule">
-                        <p className="project-schedule_heading">project type</p>
+                        <p className="project-schedule_heading">project schedule</p>
 
                         <div className="field-row">
                             <div className="field-row--label"> <span>start date</span></div>
@@ -188,7 +263,30 @@ function AddProjectWidget(props) {
                     {
                         forecastBreakdown.length > 0 ?
                             <div className="forecast-burndown">
-                                <p className="forecast-burndown_heading">project type</p>
+                                <p className="forecast-burndown_heading">forecast burndown</p>
+                                <div className="forecast-burndown_row">
+                                    <div className="forecast-burndown_row--col-1" >
+                                        <div style={{ display: 'flex', margin: '10px 0' }}>
+                                            <div className="forecast-burndown_date">
+                                                <span></span>
+                                            </div>
+
+                                            <div className="forecast-burndown_date" style={{ justifyContent: 'center' }}>
+                                                <span>Financial</span>
+                                            </div>
+
+                                            <div className="forecast-burndown_date" style={{ justifyContent: 'center' }}>
+                                                <span>Effort</span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div className="forecast-burndown_row--col-2">
+
+                                    </div>
+
+                                </div>
 
                                 <div className="forecast-burndown_row">
                                     <div className="forecast-burndown_row--col-1" >
@@ -202,11 +300,11 @@ function AddProjectWidget(props) {
                                                             </div>
 
                                                             <div className="forecast-burndown_field">
-                                                                <input type="text" />
+                                                                <input type="number" value={item.financial} onChange={e => item.financial = e.target.value} />
                                                             </div>
 
                                                             <div className="forecast-burndown_field">
-                                                                <input type="text" />
+                                                                <input type="number" value={item.effort} onChange={e => item.effort = e.target.value} />
                                                             </div>
 
                                                         </div>
@@ -234,18 +332,27 @@ function AddProjectWidget(props) {
                 <div className="widget-footer_actions">
                     <button className="widget-footer_actions--btn">Cancel</button>
 
-                    <button className="widget-footer_actions--btn" onClick={() => props.getProps.history.push({
-                        pathname: '/home/add-new-project/add-bucket',
-                        state: 'add new bucket'
-                    })}> Next</button>
+                    <button className="widget-footer_actions--btn" onClick={() => saveProjectDetails()}> Next</button>
 
                 </div>
             </div>
 
-        </div>
+        </div >
     );
 }
 
+// function mapStateToProps(state) {
+//     console.log('Redux State - add project widget', state.root.user_data)
+//     return {
+//         userData: state.root.user_data
+//     }
+// }
+function mapDispatchToProps(dispatch) {
+    return ({
+        setProjectTemplateAction: (project) => { dispatch(setProjectTemplate(project)) },
 
-export default AddProjectWidget;
+
+    })
+}
+export default connect(null, mapDispatchToProps)(AddProjectWidget);
 

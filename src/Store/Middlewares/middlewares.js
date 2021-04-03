@@ -6,7 +6,7 @@ let auth = firebase.auth();
 let database = firebase.database().ref();
 let currentUser = {}
 let signUpTemplate = {}
-
+export let projectTemplate = {}
 
 export function setNavigationProps(navigation) {
     return dispatch => {
@@ -174,6 +174,13 @@ export function getCurrentUserData() {
 
     }
 }
+
+export function setProjectTemplate(project) {
+    return dispatch => {
+        projectTemplate = project
+    }
+}
+
 export function logOut() {
     // Object.assign({}, user, { profileImg: url, uid: ev.user.uid })
     return dispatch => {
