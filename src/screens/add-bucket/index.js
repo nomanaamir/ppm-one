@@ -63,12 +63,6 @@ function AddBucketScreen(props) {
     return (
         <div className="bucket-container">
 
-            <div className="child-header">
-                <span className="child-header_heading">
-                    Add New Bucket
-                </span>
-            </div>
-
             <p>
                 A bucket can be used to describe Phases or work streams with a project, or can be configured to
                 reflect a Kanban board using an Agile Project Management approach.

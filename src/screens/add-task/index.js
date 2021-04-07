@@ -215,11 +215,6 @@ function AddTaskScreen(props) {
     }
     return (
         <div className="task-container">
-            <div className="child-header">
-                <span className="child-header_heading">
-                    Add New Task
-                </span>
-            </div>
             <div className="task-container_row">
                 <div className="task-container_row--col">
                     <div className="field-row">

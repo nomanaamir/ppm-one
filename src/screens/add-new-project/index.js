@@ -17,14 +17,14 @@ function AddNewProjectScreen() {
     }, []);
     return (
         <div className="add-new-project-container" style={{ height: '100%' }}>
-            <Router>
-                <Route path="/" render={() => <Redirect to="/home/add-new-project/add-project" />} />
+            {/* <Router> */}
+                {/* <Route path="/" render={() => <Redirect to="/home/add-new-project/add-project" />} /> */}
                 <Route path="/home/add-new-project/add-project" component={AddProjectScreen} />
                 <Route path="/home/add-new-project/add-bucket" component={AddBucketScreen} />
                 <Route path="/home/add-new-project/add-task" component={AddTaskScreen} />
 
 
-            </Router>
+            {/* </Router> */}
         </div>
     );
 }
