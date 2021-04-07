@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { setProjectTemplate, projectTemplate } from '../../Store/Middlewares/middlewares'
+import { setProjectTemplate, projectTemplate, getProjectNumber } from '../../Store/Middlewares/middlewares'
 import { connect } from 'react-redux';
 function AddProjectWidget(props) {
     const [startDateDisplay, setStartDateDisplay] = useState('');
@@ -130,12 +130,13 @@ function AddProjectWidget(props) {
         })
     }
     useEffect(() => {
+        props.getProjectNumberAction()
         let number = 1;
         let code = 'PRO';
         let singleZero = '0';
         let doubleZero = '00';
         let proNum = code + doubleZero + number;
-        setProjectNumber(proNum)
+        setProjectNumber(props.PROnumber || 'loading...')
 
         // set template values back to field while routing change
         const {
@@ -168,7 +169,7 @@ function AddProjectWidget(props) {
         setEndDate(endDate || '')
         console.log('forecastBreakdown', forecastBreakdown)
 
-    }, []);
+    }, [props]);
     return (
         <div className="add-project-widget-container">
             <div className="add-project-widget-container_row">
@@ -341,18 +342,18 @@ function AddProjectWidget(props) {
     );
 }
 
-// function mapStateToProps(state) {
-//     console.log('Redux State - add project widget', state.root.user_data)
-//     return {
-//         userData: state.root.user_data
-//     }
-// }
+function mapStateToProps(state) {
+    console.log('Redux State - add project widget', state.root.project_number)
+    return {
+        PROnumber: state.root.project_number?.projectNumber
+    }
+}
 function mapDispatchToProps(dispatch) {
     return ({
         setProjectTemplateAction: (project) => { dispatch(setProjectTemplate(project)) },
 
-
+        getProjectNumberAction: () => { dispatch(getProjectNumber()) }
     })
 }
-export default connect(null, mapDispatchToProps)(AddProjectWidget);
+export default connect(mapStateToProps, mapDispatchToProps)(AddProjectWidget);
 

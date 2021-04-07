@@ -7,4 +7,6 @@ export const ActionTypes = {
     SIGNUP_ERROR: "SIGNUP_ERROR",
 
     GET_USER_DATA: "GET_USER_DATA",
+
+    GET_PROJECT_NUMBER: "GET_PROJECT_NUMBER"
 }

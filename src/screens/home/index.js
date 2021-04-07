@@ -40,7 +40,7 @@ function HomeScreen(props) {
                         <Route path="/home/projects" component={ProjectsScreen} />
                         <Route path="/home/finance" component={FinanceScreen} />
                         <Route path="/home/reporting" component={ReportingScreen} />
-                        <Route path="/home/add-new-project/add-project" component={AddNewProjectScreen} />
+                        <Route path="/home/add-new-project" component={AddNewProjectScreen} />
 
                     </div>
                 </div>

@@ -7,6 +7,13 @@ let database = firebase.database().ref();
 let currentUser = {}
 let signUpTemplate = {}
 export let projectTemplate = {}
+export let bucketTemplate = []
+export let tasksTemplate = []
+export let tasks = []
+
+
+
+
 
 export function setNavigationProps(navigation) {
     return dispatch => {
@@ -150,6 +157,67 @@ export function setUserPaymentDetails(uid, paymentDetails) {
     }
 }
 
+export function addProject() {
+    // Object.assign({}, user, { profileImg: url, uid: ev.user.uid })
+    return dispatch => {
+        console.log('projectTemplate', projectTemplate)
+        console.log('tasks', tasks)
+        const filteredTasks = tasks.filter(a => {
+            if (a.tasks.length === 0) {
+                return a.tasks = ['empty']
+            }
+
+        })
+        // const project = Object.assign({}, projectTemplate, { tasks: tasks })
+
+        getCurrentUser().then(user => {
+            
+            if (user && user?.uid !== '') {
+                const userProject = Object.assign({}, projectTemplate, { uid: user.uid, buckets: tasks })
+                userProject.forecastBurndownRange.filter(a => {
+                    if (a.effort === undefined && a.financial === undefined) {
+                        a.effort = '';
+                        a.financial = ''
+                    }
+                })
+                console.log('tasksssssssssss:=>', tasks)
+                console.log('user.uid:=>', user.uid)
+                console.log('userProject=>', userProject)
+
+                database.child(`projects/${user.uid}`).push(userProject).then(() => {
+                    database.child(`projectNumber`).set({ number: firebase.database.ServerValue.increment(1) }).then(() => {
+                        alert('Project Added')
+                    })
+                    projectTemplate = {
+                        contingency: "",
+                        description: "",
+                        endDate: '',
+                        endDateDisplay: "",
+                        fixedPrice: false,
+                        forecastBreakdown: [],
+                        forecastBurndownRange: [],
+                        forecastHours: "",
+                        name: "",
+                        number: "",
+                        projectServices: "",
+                        startDate: '',
+                        startDateDisplay: "",
+                        timeMaterials: false,
+                    }
+                    bucketTemplate = []
+                    tasksTemplate = []
+                    tasks = []
+                })
+                // console.log(Object.assign({}, project, { uid: user.uid }))
+            }
+        })
+        // database.child(`projects/${uid}`).push().then(() => {
+
+        // })
+
+    }
+}
+
 export function getCurrentUser() {
     return new Promise((reslove, reject) => {
         auth.onAuthStateChanged((user) => {
@@ -174,10 +242,65 @@ export function getCurrentUserData() {
 
     }
 }
+export function getProjectNumber() {
+    return dispatch => {
+        database.child('projectNumber').on('value', ev => {
+            if (ev.val()) {
+                const { number } = ev.val()
+                let newNumber = parseInt(number) + 1
+                let code = 'PRO';
+                let singleZero = '0';
+                let doubleZero = '00';
+                let proNum = '';
+                if (newNumber <= 9) {
+                    proNum = code + doubleZero + newNumber;
+                } else if (newNumber <= 98) {
+                    proNum = code + singleZero + newNumber;
+                } else {
+                    proNum = code + newNumber;
+                }
+                console.log('project number', proNum)
+                dispatch({ type: ActionTypes.GET_PROJECT_NUMBER, payload: { projectNumber: proNum } })
+            } else {
+                dispatch({ type: ActionTypes.GET_PROJECT_NUMBER, payload: { projectNumber: '001' } })
 
+            }
+        })
+    }
+}
 export function setProjectTemplate(project) {
     return dispatch => {
         projectTemplate = project
+    }
+}
+export function setBucketTemplate(bucket) {
+    return dispatch => {
+        if (!bucketTemplate.some(a => a.bucketID === bucket.bucketID)) {
+            bucketTemplate.push(bucket)
+            tasks.push(
+                {
+                    bucketName: bucket.bucketName,
+                    bucketID: bucket.bucketID,
+                    startDate: '',
+                    endDate: '',
+                    startDateDisplay: '',
+                    endDateDisplay: '',
+                    tasks: []
+                }
+            )
+        }
+
+    }
+}
+
+export function setTasksTemplate(tasks) {
+    return dispatch => {
+        tasksTemplate = tasks
+    }
+}
+export function setTasks(tasks) {
+    return dispatch => {
+        tasks = tasks
     }
 }
 
