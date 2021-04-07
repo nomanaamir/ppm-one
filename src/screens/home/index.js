@@ -25,7 +25,7 @@ function HomeScreen(props) {
     }, []);
     return (
         <div className="Home">
-            <Router>
+            {/* <Router> */}
                 <Header user={props.userData}/>
                 <div style={{ display: 'flex', minHeight: 'calc(100vh - 75px)' }}>
                     <NavigationMenu />
@@ -44,7 +44,7 @@ function HomeScreen(props) {
 
                     </div>
                 </div>
-            </Router>
+            {/* </Router> */}
         </div>
     );
 }

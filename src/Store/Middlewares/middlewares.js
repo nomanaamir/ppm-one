@@ -158,20 +158,17 @@ export function setUserPaymentDetails(uid, paymentDetails) {
 }
 
 export function addProject() {
-    // Object.assign({}, user, { profileImg: url, uid: ev.user.uid })
     return dispatch => {
-        console.log('projectTemplate', projectTemplate)
-        console.log('tasks', tasks)
+
         const filteredTasks = tasks.filter(a => {
             if (a.tasks.length === 0) {
                 return a.tasks = ['empty']
             }
 
         })
-        // const project = Object.assign({}, projectTemplate, { tasks: tasks })
 
         getCurrentUser().then(user => {
-            
+
             if (user && user?.uid !== '') {
                 const userProject = Object.assign({}, projectTemplate, { uid: user.uid, buckets: tasks })
                 userProject.forecastBurndownRange.filter(a => {
@@ -180,13 +177,15 @@ export function addProject() {
                         a.financial = ''
                     }
                 })
-                console.log('tasksssssssssss:=>', tasks)
-                console.log('user.uid:=>', user.uid)
-                console.log('userProject=>', userProject)
+
 
                 database.child(`projects/${user.uid}`).push(userProject).then(() => {
                     database.child(`projectNumber`).set({ number: firebase.database.ServerValue.increment(1) }).then(() => {
                         alert('Project Added')
+                        redirect.push({
+                            pathname: '/home/projects',
+                            state: 'project list'
+                        })
                     })
                     projectTemplate = {
                         contingency: "",
@@ -208,12 +207,9 @@ export function addProject() {
                     tasksTemplate = []
                     tasks = []
                 })
-                // console.log(Object.assign({}, project, { uid: user.uid }))
             }
         })
-        // database.child(`projects/${uid}`).push().then(() => {
 
-        // })
 
     }
 }

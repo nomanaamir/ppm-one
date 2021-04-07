@@ -30,7 +30,7 @@ function NavigationMenu(props) {
         {
             name: 'add new project',
             header: 'add new project',
-            path: '/home/add-new-project'
+            path: '/home/add-new-project/add-project'
         }
     ]
     useEffect(() => {
