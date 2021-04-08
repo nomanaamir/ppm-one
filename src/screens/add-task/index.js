@@ -181,36 +181,24 @@ function AddTaskScreen(props) {
         console.log('buckets', buckets)
     }
     const submit = () => {
-        // let flag = true;
-        // console.log('contain', buckets)
-        // const nonDefaultBuckets = buckets.filter(a => {
-        //     return a.bucketName !== "To Do bucket"
-        // })
-        // // alert(flag)
-        // for (let index = 0; index < nonDefaultBuckets.length; index++) {
-        //     const element = nonDefaultBuckets[index];
-        //     if (flag) {
-        //         if (element.tasks.length === 0) {
-        //             alert('you must fill non default buckets!')
-        //             flag = false
-        //             // break
-        //         } else if (element.tasks.length > 0) {
+        const nonDefaultBuckets = buckets.filter(a => {
+            return a.bucketName !== "To Do bucket"
+        })
+        const isempty = nonDefaultBuckets.some((item) => item.tasks.length === 0)
+        if (isempty) {
+            alert('you must fill non default buckets!')
+        } else {
+            props.setTasksAction(buckets)
+            props.addProjectAction()
+            setTaskName('');
+            setChecklist([]);
+            setEndDate('')
+            setStartDate('')
+            setEndDateDisplay('')
+            setStartDateDisplay('')
+        }
 
-        //             alert(element.bucketName)
 
-        //             flag = true
-
-        //         }
-        //     }
-        // }
-        props.setTasksAction(buckets)
-        props.addProjectAction()
-        setTaskName('');
-        setChecklist([]);
-        setEndDate('')
-        setStartDate('')
-        setEndDateDisplay('')
-        setStartDateDisplay('')
 
     }
     return (

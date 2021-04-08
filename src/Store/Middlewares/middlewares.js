@@ -264,6 +264,26 @@ export function getProjectNumber() {
         })
     }
 }
+
+export function getProjects() {
+    return dispatch => {
+        dispatch({ type: ActionTypes.GET_PROJECTS, payload: { projects: {}, loading: true } })
+        getCurrentUser().then(user => {
+            if (user) {
+                database.child(`projects/${user.uid}`).on('value', ev => {
+                    if (ev.val()) {
+                        dispatch({ type: ActionTypes.GET_PROJECTS, payload: { projects: ev.val(), loading: false } })
+                    } else {
+                        dispatch({ type: ActionTypes.GET_PROJECTS, payload: { projects: {}, loading: false } })
+
+                    }
+                })
+            }
+        })
+
+    }
+}
+
 export function setProjectTemplate(project) {
     return dispatch => {
         projectTemplate = project

@@ -8,7 +8,8 @@ const InitialState = {
     signUp_error: '',
 
     user_data: {},
-    project_number:{}
+    project_number: {},
+    project_list: {}
 }
 export default (state = InitialState, action) => {
     switch (action.type) {
@@ -25,6 +26,8 @@ export default (state = InitialState, action) => {
             return ({ ...state, user_data: action.payload });
         case ActionTypes.GET_PROJECT_NUMBER:
             return ({ ...state, project_number: action.payload });
+        case ActionTypes.GET_PROJECTS:
+            return ({ ...state, project_list: action.payload });
 
 
         default:

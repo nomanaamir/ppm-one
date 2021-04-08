@@ -1,14 +1,36 @@
 import React, { useState, useEffect } from 'react';
-
-function ProjectsScreen() {
-
+import { getProjects } from '../../Store/Middlewares/middlewares';
+import { connect } from 'react-redux';
+// project card
+import ProjectCard from '../../components/project-card/index'
+function ProjectsScreen(props) {
+    useEffect(() => {
+        props.getProjectsAction()
+    }, []);
     return (
         <div className="projects-container">
-            <h1>Projects Screen</h1>
+            {
+                props.projectList.map((item, index) => {
+                    return (
+                        <ProjectCard project={item} key={index} />
+                    )
+                })
+            }
+            {/* <h1>Projects Screen</h1> */}
         </div>
     );
 }
 
+function mapStateToProps(state) {
+    return {
+        projectList: Object.values(state.root.project_list?.projects || {})
+    }
+}
+function mapDispatchToProps(dispatch) {
+    return ({
+        getProjectsAction: () => { dispatch(getProjects()) },
 
-export default ProjectsScreen;
+    })
+}
+export default connect(mapStateToProps, mapDispatchToProps)(ProjectsScreen);
 

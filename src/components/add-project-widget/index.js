@@ -54,6 +54,7 @@ function AddProjectWidget(props) {
 
         // forecast burndown set dates ranges
         let sample = getRangeDates(startDate, new Date(value));
+        console.log('sample', sample)
         let duplicateSample = sample; // duplicate array to prevent changes to original array
         let populateFirstMonth = {};
         if (forecastBreakdown.length === 0) {
@@ -80,13 +81,13 @@ function AddProjectWidget(props) {
             let month = year === fromYear ? fromMonth : 0;
             const monthLimit = year === toYear ? toMonth : 11;
             for (; month <= monthLimit; month++) {
-                const manth = months[month]
+                const displayMonth = months[month]
                 console.log('getMonths', getMonths)
                 console.log('dateRange', forecastBreakdown)
-                // console.log(!dateRange.includes({ year, manth }))
-                // console.log(forecastBreakdown.indexOf({ year, manth }))
-                if (!forecastBreakdown.some(e => ((e.year === year) && (e.manth === manth)))) {
-                    getMonths.push({ year: year, manth, financial: undefined, effort: undefined })
+                // console.log(!dateRange.includes({ year, displayMonth }))
+                // console.log(forecastBreakdown.indexOf({ year, displayMonth }))
+                if (!forecastBreakdown.some(e => ((e.year === year) && (e.displayMonth === displayMonth)))) {
+                    getMonths.push({ year: year, displayMonth, financial: undefined, effort: undefined, month })
                 }
             }
         }
@@ -121,7 +122,12 @@ function AddProjectWidget(props) {
             forecastBreakdown,
             forecastBurndownRange: dateRange,
             startDate,
-            endDate
+            endDate,
+            projectState: 'new',
+            scheduleStatus: 'on track',
+            scopeStatus: 'on track',
+            budgetStatus: 'on track',
+            effortSpent: 0
         }
         props.setProjectTemplateAction(project)
         props.getProps.history.push({
@@ -297,7 +303,7 @@ function AddProjectWidget(props) {
                                                     return (
                                                         <div key={index} style={{ display: 'flex', margin: '10px 0' }}>
                                                             <div className="forecast-burndown_date">
-                                                                <span>{item.manth} {item.year}</span>
+                                                                <span>{item.displayMonth} {item.year}</span>
                                                             </div>
 
                                                             <div className="forecast-burndown_field">
