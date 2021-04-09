@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 
-import { BrowserRouter as Router, Route, Switch, withRouter } from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Redirect } from 'react-router'
 
 import { connect } from 'react-redux';
 // screens
-import AddProjectScreen from '../add-project/index'
-// components
-
+import AddProjectScreen from '../add-project/index';
+import AddBucketScreen from '../add-bucket/index';
+import AddTaskScreen from '../add-task/index';
 //middlewares
 // import { getCurrentUserData, setNavigationProps } from '../../Store/Middlewares/middlewares';
 
@@ -16,13 +16,15 @@ function AddNewProjectScreen() {
 
     }, []);
     return (
-        <div className="add-new-project-container">
-            <Router>
+        <div className="add-new-project-container" style={{ height: '100%' }}>
+            {/* <Router> */}
+                {/* <Route path="/" render={() => <Redirect to="/home/add-new-project/add-project" />} /> */}
+                <Route path="/home/add-new-project/add-project" component={AddProjectScreen} />
+                <Route path="/home/add-new-project/add-bucket" component={AddBucketScreen} />
+                <Route path="/home/add-new-project/add-task" component={AddTaskScreen} />
 
-                <Route path="/" render={() => <Redirect to="/home/add-new-project/add" />} />
-                <Route path="/home/add-new-project/add" component={AddProjectScreen} />
 
-            </Router>
+            {/* </Router> */}
         </div>
     );
 }

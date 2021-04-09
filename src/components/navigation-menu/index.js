@@ -30,7 +30,7 @@ function NavigationMenu(props) {
         {
             name: 'add new project',
             header: 'add new project',
-            path: '/home/add-new-project/add'
+            path: '/home/add-new-project/add-project'
         }
     ]
     useEffect(() => {
@@ -44,7 +44,6 @@ function NavigationMenu(props) {
                     routes.map((item, index) => {
                         return (
 
-                            // <div key={index} className="navigation-link">
                             <NavLink
                                 key={index}
                                 className="navigation-link"
@@ -53,8 +52,7 @@ function NavigationMenu(props) {
                             >
                                 {item.name}
                             </NavLink>
-                            // {/* <span className="navigation-link--text">{item.name}</span> */}
-                            // </div>
+                           
                         )
                     })
                 }

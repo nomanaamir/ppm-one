@@ -11,7 +11,6 @@ function SignInScreen(props) {
     const [password, setPassword] = useState('');
 
     const { history } = props
-
     const MSlogin = () => {
         props.microsoftLoginAction()
     }

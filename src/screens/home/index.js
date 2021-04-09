@@ -12,7 +12,7 @@ import ReportingScreen from '../..//screens/reporting/index';
 import AddNewProjectScreen from '../..//screens/add-new-project/index'
 // components
 import NavigationMenu from '../../components/navigation-menu/index'
-import Header from '../..//components/header/index';
+import Header from '../../components/header/index';
 
 //middlewares
 import { getCurrentUserData, setNavigationProps } from '../../Store/Middlewares/middlewares';
@@ -25,7 +25,7 @@ function HomeScreen(props) {
     }, []);
     return (
         <div className="Home">
-            <Router>
+            {/* <Router> */}
                 <Header user={props.userData}/>
                 <div style={{ display: 'flex', minHeight: 'calc(100vh - 75px)' }}>
                     <NavigationMenu />
@@ -44,7 +44,7 @@ function HomeScreen(props) {
 
                     </div>
                 </div>
-            </Router>
+            {/* </Router> */}
         </div>
     );
 }

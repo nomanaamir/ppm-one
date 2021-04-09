@@ -152,7 +152,10 @@ function PaymentDetailsScreen(props) {
 
                 </div>
 
-                <div className="widget-footer" style={{height: 'auto'}}>
+                <div className="widget-footer" style={{
+                    bottom: '14px',
+                    right: ' 14px'
+                }}>
                     <div className="widget-footer_actions">
                         <button className="widget-footer_actions--btn" onClick={() => props.history.push('/')}>Cancel</button>
                         {
