@@ -170,7 +170,7 @@ export function addProject() {
         getCurrentUser().then(user => {
 
             if (user && user?.uid !== '') {
-                const userProject = Object.assign({}, projectTemplate, { uid: user.uid, buckets: tasks })
+                const userProject = Object.assign({}, projectTemplate, { createdBy: user.uid, buckets: tasks })
                 userProject.forecastBurndownRange.filter(a => {
                     if (a.effort === undefined && a.financial === undefined) {
                         a.effort = '';
@@ -179,7 +179,7 @@ export function addProject() {
                 })
 
 
-                database.child(`projects/${user.uid}`).push(userProject).then(() => {
+                database.child('projects').push(userProject).then(() => {
                     database.child(`projectNumber`).set({ number: firebase.database.ServerValue.increment(1) }).then(() => {
                         alert('Project Added')
                         redirect.push({
@@ -268,16 +268,12 @@ export function getProjectNumber() {
 export function getProjects() {
     return dispatch => {
         dispatch({ type: ActionTypes.GET_PROJECTS, payload: { projects: {}, loading: true } })
-        getCurrentUser().then(user => {
-            if (user) {
-                database.child(`projects/${user.uid}`).on('value', ev => {
-                    if (ev.val()) {
-                        dispatch({ type: ActionTypes.GET_PROJECTS, payload: { projects: ev.val(), loading: false } })
-                    } else {
-                        dispatch({ type: ActionTypes.GET_PROJECTS, payload: { projects: {}, loading: false } })
+        database.child('projects').on('value', ev => {
+            if (ev.val()) {
+                dispatch({ type: ActionTypes.GET_PROJECTS, payload: { projects: ev.val(), loading: false } })
+            } else {
+                dispatch({ type: ActionTypes.GET_PROJECTS, payload: { projects: {}, loading: false } })
 
-                    }
-                })
             }
         })
 
