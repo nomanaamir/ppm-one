@@ -108,6 +108,7 @@ function AddProjectWidget(props) {
 
     }
     const saveProjectDetails = () => {
+
         const project = {
             number: projectNumber,
             name: projectName,
@@ -129,11 +130,36 @@ function AddProjectWidget(props) {
             budgetStatus: 'on track',
             effortSpent: 0
         }
-        props.setProjectTemplateAction(project)
-        props.getProps.history.push({
-            pathname: '/home/add-new-project/add-bucket',
-            state: 'add new bucket'
-        })
+
+        if ((
+            projectNumber === '' ||
+            projectName === '' ||
+            projectDesc === '' ||
+            forecastHours === '' ||
+            projectServices === '' ||
+            contingency === '' ||
+            startDateDisplay === '' ||
+            endDateDisplay === '' ||
+            forecastBreakdown.length === 0 ||
+            startDate === '' ||
+            endDate === ''
+        )
+            ||
+            (
+                timeMaterials === false &&
+                fixedPrice === false
+            )
+
+        ) {
+            alert('You must fill all requirements!')
+        } else {
+            props.setProjectTemplateAction(project)
+            props.getProps.history.push({
+                pathname: '/home/add-new-project/add-bucket',
+                state: 'add new bucket'
+            })
+        }
+
     }
     useEffect(() => {
         props.getProjectNumberAction()

@@ -236,9 +236,11 @@ function AddTaskScreen(props) {
                                             <div className="checklist-item-row_circle">
 
                                             </div>
-                                            <span className="checklist-item-row_text">
-                                                {item.checklist}
-                                            </span>
+                                            <div className="checklist-item-row--contain">
+                                                <span className="checklist-item-row_text">
+                                                    {item.checklist}
+                                                </span>
+                                            </div>
                                         </div>
 
                                     )

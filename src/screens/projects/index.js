@@ -16,7 +16,6 @@ function ProjectsScreen(props) {
                     )
                 })
             }
-            {/* <h1>Projects Screen</h1> */}
         </div>
     );
 }
