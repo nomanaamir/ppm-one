@@ -183,7 +183,7 @@ export function addProject() {
                     database.child(`projectNumber`).set({ number: firebase.database.ServerValue.increment(1) }).then(() => {
                         alert('Project Added')
                         redirect.push({
-                            pathname: '/home/projects',
+                            pathname: 'home/projects/project-list',
                             state: 'project list'
                         })
                     })

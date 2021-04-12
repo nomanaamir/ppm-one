@@ -1,35 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { getProjects } from '../../Store/Middlewares/middlewares';
-import { connect } from 'react-redux';
-// project card
-import ProjectCard from '../../components/project-card/index'
-function ProjectsScreen(props) {
+
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+// screens
+import ProjectListScreen from '../project-list/index';
+import ProjectDetailScreen from '../project-detail/index'
+function ProjectsScreen() {
     useEffect(() => {
-        props.getProjectsAction()
+
     }, []);
     return (
-        <div className="projects-container">
-            {
-                props.projectList.map((item, index) => {
-                    return (
-                        <ProjectCard project={item} key={index} />
-                    )
-                })
-            }
+        <div style={{ height: '100%' }}>
+
+            <Route path="/home/projects/project-list" component={ProjectListScreen} />
+            <Route path="/home/projects/project-detail" component={ProjectDetailScreen} />
+
         </div>
     );
 }
 
-function mapStateToProps(state) {
-    return {
-        projectList: Object.values(state.root.project_list?.projects || {})
-    }
-}
-function mapDispatchToProps(dispatch) {
-    return ({
-        getProjectsAction: () => { dispatch(getProjects()) },
 
-    })
-}
-export default connect(mapStateToProps, mapDispatchToProps)(ProjectsScreen);
-
+export default ProjectsScreen;

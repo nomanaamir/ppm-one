@@ -1,0 +1,48 @@
+.project-info-bar {
+    background: white;
+    &_row {
+        display: flex;
+        &-col {
+            display: flex;
+            box-sizing: border-box;
+            &:first-child {
+                width: 25%;
+                padding-left: 10px;
+            }
+            &:last-child {
+                width: 75%;
+                div{
+                    border-left: 1px dashed #707070;
+                }
+            }
+            &--15 {
+                width: 15%;
+            }
+            &--20 {
+                width: 20%;
+            }
+        }
+    }
+    #bar-header {
+        border-bottom: 1px dashed #707070;
+        .project-info-bar--info-text {
+            text-transform: uppercase;
+            font-size: 14px;
+        }
+    }
+    #bar-body {
+        .project-info-bar--info-text {
+            font-size: 13px;
+        }
+    }
+    &--info {
+        height: 35px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        span {
+            color: #5a5a5a;
+            -webkit-text-stroke: 0.025em rgba(51, 51, 51, 0.5);
+        }
+    }
+}

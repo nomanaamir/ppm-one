@@ -3,7 +3,7 @@
 @import "./screens/screen.payment-details.scss";
 @import "./screens/screen.add-bucket.scss";
 @import "./screens/screen.add-task.scss";
-
+@import "./screens/screen.project-detail.scss";
 
 
 // components
@@ -13,3 +13,5 @@
 @import "./components/component.widget-footer.scss";
 @import "./components/component.checklist.scss";
 @import "./components/component.project-card.scss";
+@import "./components/component.project-info-bar.scss";
+@import "./components/component.status-widget.scss"

@@ -15,7 +15,7 @@ function NavigationMenu(props) {
         {
             name: 'projects',
             header: 'project list',
-            path: '/home/projects'
+            path: '/home/projects/project-list'
         },
         {
             name: 'finance',

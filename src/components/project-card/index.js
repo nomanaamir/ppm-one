@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 function ProjectCard(props) {
-    const { project } = props
+    const { project, getProps } = props
     const { contingency, projectServices, forecastBreakdown, forecastHours, effortSpent, endDateDisplay, name } = project
     // const getValues = []
     const [financialSum, setFinancialSum] = useState([])
@@ -22,10 +22,16 @@ function ProjectCard(props) {
     const sumFinancialForecast = (...value) => {
         return value.reduce((total, value) => total + value, 0);
     }
+    const gotoProjectDetail = () => {
+        getProps.history.push({
+            pathname: '/home/projects/project-detail',
+            state: 'project detail'
+        })
+    }
     const revenue = parseInt(contingency) + parseInt(projectServices);
     const invoiced = financialSum.reduce((a, b) => a + b, 0);
     return (
-        <div className="project-card">
+        <div className="project-card" onClick={() => gotoProjectDetail()}>
             <div className="project-card--name">
                 <span>{name}</span>
                 <div className="project-card--name-border"></div>

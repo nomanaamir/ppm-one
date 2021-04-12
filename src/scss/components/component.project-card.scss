@@ -1,7 +1,8 @@
 .projects-container {
     display: grid;
     padding-left: 0px;
-    grid-template-columns: repeat(3, 1fr);
+    // grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     grid-gap: 20px;
 }
 .project-card {

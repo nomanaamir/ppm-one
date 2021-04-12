@@ -1,0 +1,45 @@
+.status-widget {
+    background: white;
+    padding: 8px 12px;
+    max-width: 240px;
+    &_row {
+        display: flex;
+        justify-content: space-between;
+        height: 28px;
+        align-items: center;
+        span {
+            color: #5a5a5a;
+            text-transform: capitalize;
+            font-size: 14px;
+            -webkit-text-stroke: 0.025em rgba(51, 51, 51, 0.5);
+        }
+        input[type="radio"] {
+            height: 16px;
+            width: 16px;
+            display: flex;
+        }
+    }
+    &--indicator {
+        display: flex;
+        width: 76px;
+        justify-content: space-between;
+        align-items: center;
+        &_bg {
+            width: 12px;
+            height: 12px;
+            border-radius: 100%;
+            &.warning {
+                background: #f5b55d;
+            }
+            &.success {
+                background: #43e0aa;
+            }
+        }
+        &_value {
+            span {
+                font-size: 13px;
+                -webkit-text-stroke: 0.015em rgba(51, 51, 51, 0.5);
+            }
+        }
+    }
+}
