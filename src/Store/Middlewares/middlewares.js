@@ -183,13 +183,13 @@ export function addProject() {
                     database.child(`projectNumber`).set({ number: firebase.database.ServerValue.increment(1) }).then(() => {
                         alert('Project Added')
                         redirect.push({
-                            pathname: 'home/projects/project-list',
+                            pathname: '/home/projects/project-list',
                             state: 'project list'
                         })
                     })
                     projectTemplate = {
                         contingency: "",
-                        description: "",
+                        description: [],
                         endDate: '',
                         endDateDisplay: "",
                         fixedPrice: false,
@@ -315,7 +315,11 @@ export function setTasks(tasks) {
         tasks = tasks
     }
 }
-
+export function setSelectedProject(selectedProject) {
+    return dispatch => {
+        dispatch({ type: ActionTypes.SELECTED_PROJECT, payload: selectedProject })
+    }
+}
 export function logOut() {
     // Object.assign({}, user, { profileImg: url, uid: ev.user.uid })
     return dispatch => {

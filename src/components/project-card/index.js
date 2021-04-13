@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 function ProjectCard(props) {
-    const { project, getProps } = props
+    const { project, getProps, projectKey } = props
     const { contingency, projectServices, forecastBreakdown, forecastHours, effortSpent, endDateDisplay, name } = project
     // const getValues = []
     const [financialSum, setFinancialSum] = useState([])
     useEffect(() => {
         setFinancialSum([])
-        console.log('project card', project)
+        console.log('project card', projectKey)
         console.log('forecastBreakdown', forecastBreakdown)
         const currentMonth = new Date().getMonth();
         forecastBreakdown.filter(item => {
@@ -22,16 +22,29 @@ function ProjectCard(props) {
     const sumFinancialForecast = (...value) => {
         return value.reduce((total, value) => total + value, 0);
     }
-    const gotoProjectDetail = () => {
-        getProps.history.push({
-            pathname: '/home/projects/project-detail',
-            state: 'project detail'
-        })
+    // const gotoProjectDetail = () => {
+    //     // alert(projectKey)
+    //     // getProps.history.push({
+    //     //     pathname: '/home/projects/project-detail',
+    //     //     state: 'project detail'
+    //     // })
+    //     const selectedProject = {
+    //         key: projectKey,
+    //         project
+    //     }
+    //     selectProject(selectedProject)
+    // }
+    const selectProject = () => {
+        const selectedProject = {
+            key: projectKey,
+            project
+        }
+        props.onSelectProject(selectedProject);
     }
     const revenue = parseInt(contingency) + parseInt(projectServices);
     const invoiced = financialSum.reduce((a, b) => a + b, 0);
     return (
-        <div className="project-card" onClick={() => gotoProjectDetail()}>
+        <div className="project-card" onClick={() => selectProject()}>
             <div className="project-card--name">
                 <span>{name}</span>
                 <div className="project-card--name-border"></div>

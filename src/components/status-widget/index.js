@@ -19,7 +19,7 @@ function StatusWidget(props) {
                                 {
                                     statusSummary ?
                                         <div className="status-widget--indicator">
-                                            <div className={'status-widget--indicator_bg ' + item.color}></div>
+                                            <div className={'status-widget--indicator_bg ' + item.value.replace(/\s/g, '')}></div>
                                             <div className="status-widget--indicator_label"><span>{item.value}</span></div>
                                         </div>
                                         :

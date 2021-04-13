@@ -9,7 +9,9 @@ const InitialState = {
 
     user_data: {},
     project_number: {},
-    project_list: {}
+    project_list: {},
+
+    selected_project: {}
 }
 export default (state = InitialState, action) => {
     switch (action.type) {
@@ -29,6 +31,8 @@ export default (state = InitialState, action) => {
         case ActionTypes.GET_PROJECTS:
             return ({ ...state, project_list: action.payload });
 
+        case ActionTypes.SELECTED_PROJECT:
+            return ({ ...state, selected_project: action.payload });
 
         default:
             return state;

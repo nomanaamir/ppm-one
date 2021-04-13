@@ -1,8 +1,8 @@
 .projects-container {
     display: grid;
     padding-left: 0px;
-    // grid-template-columns: repeat(3, 1fr);
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
+    // grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     grid-gap: 20px;
 }
 .project-card {
@@ -16,6 +16,7 @@
     box-sizing: border-box;
     margin: 0 auto;
     width: 100%;
+    cursor: pointer;
     span {
         color: #707070;
         font-size: 15px;

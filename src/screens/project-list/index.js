@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getProjects } from '../../Store/Middlewares/middlewares';
+import { getProjects, setSelectedProject } from '../../Store/Middlewares/middlewares';
 import { connect } from 'react-redux';
 // project card
 import ProjectCard from '../../components/project-card/index'
@@ -7,12 +7,20 @@ function ProjectListScreen(props) {
     useEffect(() => {
         props.getProjectsAction()
     }, []);
+    const selectProject = (selectedProject) => {
+        // console.log('selectedProject', selectedProject)
+        props.setSelectedProjectAction(selectedProject)
+        props.history.push({
+            pathname: '/home/projects/project-detail',
+            state: 'project detail'
+        })
+    }
     return (
         <div className="projects-container">
             {
                 props.projectList.map((item, index) => {
                     return (
-                        <ProjectCard project={item} key={index} getProps={props} />
+                        <ProjectCard project={item} key={index} getProps={props} projectKey={props.projectKeys[index]} onSelectProject={selectProject} />
                     )
                 })
             }
@@ -22,12 +30,15 @@ function ProjectListScreen(props) {
 
 function mapStateToProps(state) {
     return {
-        projectList: Object.values(state.root.project_list?.projects || {})
+        projectList: Object.values(state.root.project_list?.projects || {}),
+        projectKeys: Object.keys(state.root.project_list?.projects || {})
     }
 }
 function mapDispatchToProps(dispatch) {
     return ({
         getProjectsAction: () => { dispatch(getProjects()) },
+        setSelectedProjectAction: (selectedProject) => { dispatch(setSelectedProject(selectedProject)) },
+
 
     })
 }

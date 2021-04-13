@@ -112,7 +112,7 @@ function AddProjectWidget(props) {
         const project = {
             number: projectNumber,
             name: projectName,
-            description: projectDesc,
+            description: [{ update: projectDesc, date: startDateDisplay }],
             forecastHours,
             projectServices,
             contingency,
@@ -186,8 +186,16 @@ function AddProjectWidget(props) {
             startDate,
             endDate
         } = projectTemplate
+        console.log('description', description)
+        if (description !== undefined && description?.length !== 0) {
+            let lastIndex = description.length - 1;
+            let desc = description[lastIndex];
+            setProjectDesc(desc?.update)
+        } else {
+            setProjectDesc('')
+
+        }
         setProjectName(name || '')
-        setProjectDesc(description || '')
         setForecastHours(forecastHours || '')
         setProjectServices(projectServices || '')
         setContingency(contingency || '')
