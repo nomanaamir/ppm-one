@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 function ProjectCard(props) {
     const { project, getProps, projectKey } = props
-    const { contingency, projectServices, forecastBreakdown, forecastHours, effortSpent, endDateDisplay, name } = project
+    const { contingency, projectServices, forecastBreakdown, forecastHours, effortSpent, endDateDisplay, name, projectState } = project
     // const getValues = []
     const [financialSum, setFinancialSum] = useState([])
     useEffect(() => {
@@ -55,7 +55,7 @@ function ProjectCard(props) {
                     <div className="project-card--info">
                         <span className="project-card--info_label">Status:</span>
 
-                        <div className="project-state"> </div>
+                        <div className={"project-state " + projectState.replace(/\s/g, '')}> </div>
                     </div>
 
                     <div className="project-card--info">

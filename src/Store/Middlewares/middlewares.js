@@ -214,6 +214,17 @@ export function addProject() {
     }
 }
 
+export function updateProjectActivity(key, updatedActivity) {
+    return dispatch => {
+        database.child(`projects/${key}`).update(updatedActivity).then(() => {
+            redirect.push({
+                pathname: '/home/projects/project-list',
+                state: 'project list'
+            })
+        })
+    }
+}
+
 export function getCurrentUser() {
     return new Promise((reslove, reject) => {
         auth.onAuthStateChanged((user) => {
@@ -269,8 +280,18 @@ export function getProjects() {
     return dispatch => {
         dispatch({ type: ActionTypes.GET_PROJECTS, payload: { projects: {}, loading: true } })
         database.child('projects').on('value', ev => {
+            console.log('ev.val()', ev.val())
+            let obj = ev.val()
+            Object.keys(obj).filter(key => {
+                if (obj[key].projectState === 'complete') {
+                    delete obj[key]
+                }
+
+            })
             if (ev.val()) {
-                dispatch({ type: ActionTypes.GET_PROJECTS, payload: { projects: ev.val(), loading: false } })
+                dispatch({ type: ActionTypes.GET_PROJECTS, payload: { projects: obj, loading: false } })
+
+
             } else {
                 dispatch({ type: ActionTypes.GET_PROJECTS, payload: { projects: {}, loading: false } })
 

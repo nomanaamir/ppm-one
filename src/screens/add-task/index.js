@@ -62,7 +62,7 @@ function AddTaskScreen(props) {
             alert('all fields required before adding checklist')
             return
         }
-        setChecklist(checklist => [...checklist, { checklist: writeChecklist, active: false }])
+        setChecklist(checklist => [...checklist, { checklist: writeChecklist, id: generateCheckListID(), active: false }])
 
         buckets.forEach(a => {
             if (selectedBucket.bucketID === a.bucketID) {
@@ -71,13 +71,13 @@ function AddTaskScreen(props) {
                 //     alert('Init')
                 // } else {
                 if ((a.tasks.length === 0) || !(a.tasks.some(a => a.name === taskName))) {
-                    a.tasks.push(Object.assign({}, { name: taskName, checklist: [{ checklist: writeChecklist, active: false }] }))
+                    a.tasks.push(Object.assign({}, { name: taskName, id: generateTaskID(), checklist: [{ checklist: writeChecklist, id: generateCheckListID(), active: false }] }))
 
                 } else {
                     a.tasks.forEach(i => {
                         if (i.name === taskName) {
                             // alert('matched')
-                            i.checklist.push({ checklist: writeChecklist, active: false })
+                            i.checklist.push({ checklist: writeChecklist, id: generateCheckListID(), active: false })
                         }
                     });
 
@@ -200,6 +200,12 @@ function AddTaskScreen(props) {
 
 
 
+    }
+    const generateCheckListID = () => {
+        return 'CL' + Date.now().toString(36) + Math.random().toString(36).substr(2);
+    }
+    const generateTaskID = () => {
+        return 'TA' + Date.now().toString(36) + Math.random().toString(36).substr(2);
     }
     return (
         <div className="task-container">

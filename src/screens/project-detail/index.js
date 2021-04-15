@@ -49,6 +49,10 @@ function ProjectDetailScreen(props) {
     const { name, startDateDisplay, endDateDisplay, forecastHours, effortSpent, buckets, projectState, scheduleStatus, scopeStatus, budgetStatus, description } = project
     summary = [
         {
+            name: 'overall',
+            value: ''
+        },
+        {
             name: 'schedule',
             value: scheduleStatus
         },
@@ -71,18 +75,34 @@ function ProjectDetailScreen(props) {
         return item.value === 'off track'
     })
     if (onTrack.length >= 2) {
-        summary.push({ name: 'overall', value: 'on track' })
+        summary.forEach(item => {
+            if (item.name === 'overall') {
+                item.value = 'on track'
+            }
+        })
         // summary = Object.assign({}, summary, { name: 'overall', value: 'on track' })
     } else if (atRisk.length >= 2) {
-        summary.push({ name: 'overall', value: 'at risk' })
+        summary.forEach(item => {
+            if (item.name === 'overall') {
+                item.value = 'at risk'
+            }
+        })
         // summary = Object.assign({}, summary, { name: 'overall', value: 'at risk' })
     } else if (offTrack.length >= 2) {
-        summary.push({ name: 'overall', value: 'off track' })
+        summary.forEach(item => {
+            if (item.name === 'overall') {
+                item.value = 'off track'
+            }
+        })
 
         // summary = Object.assign({}, summary, { name: 'overall', value: 'off track' })
 
     } else {
-        summary.push({ name: 'overall', value: 'at risk' })
+        summary.forEach(item => {
+            if (item.name === 'overall') {
+                item.value = 'on track'
+            }
+        })
 
         // summary = Object.assign({}, summary, { name: 'overall', value: 'at risk' })
 
@@ -94,7 +114,14 @@ function ProjectDetailScreen(props) {
         // }, 3000);
     }, []);
 
+    const selectStatus = (selectedStatus) => {
 
+
+    }
+    const selectCheckList = (bucket) => {
+
+
+    }
     return (
         <div className="project-detail">
             {/* <h1>{totalTaskChecklist} </h1> */}
@@ -110,7 +137,7 @@ function ProjectDetailScreen(props) {
                 <div className="project-detail-row_col-30">
                     <div>
                         <p className="project-detail-row--heading">project state</p>
-                        <StatusWidget data={projectStates} activeValue={projectState} readOnlyFlag={true} statusSummary={false} />
+                        <StatusWidget data={projectStates} activeValue={projectState} readOnlyFlag={true} statusSummary={false} onSelectStatus={selectStatus} />
                     </div>
 
                     <div>
@@ -123,7 +150,7 @@ function ProjectDetailScreen(props) {
 
                 <div className="project-detail-row_col-30">
                     <p className="project-detail-row--heading">task checklist</p>
-                    <TaskChecklist />
+                    <TaskChecklist buckets={buckets} readOnlyFlag={true} onSelectCheckList={selectCheckList} />
                 </div>
 
                 <div className="project-detail-row_col-40">
@@ -131,6 +158,22 @@ function ProjectDetailScreen(props) {
                     <ProjectUpdates updates={description} />
                 </div>
             </div>
+
+            <div className="widget-footer">
+                <div className="widget-footer_actions">
+
+                    <button className="widget-footer_actions--btn"> Cancel</button>
+
+                    <button className="widget-footer_actions--btn">Edit Finance</button>
+
+                    <button className="widget-footer_actions--btn" onClick={() => props.history.push({
+                        pathname: '/home/projects/edit-activity',
+                        state: 'edit project'
+                    })}>Edit Activity</button>
+
+                </div>
+            </div>
+
         </div>
     );
 }

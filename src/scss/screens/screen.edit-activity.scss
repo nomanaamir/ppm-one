@@ -1,0 +1,52 @@
+.edit-activity {
+    position: relative;
+    height: 100%;
+    &_row {
+        display: flex;
+        &--col {
+            box-sizing: border-box;
+            &-15 {
+                width: 15%;
+            }
+            &-35 {
+                width: 35%;
+                padding: 0 25px;
+                &:last-child {
+                    padding-right: 0;
+                }
+            }
+
+            &-60 {
+                width: 60%;
+                display: flex;
+                justify-content: space-between;
+                &_contain {
+                    width: 30%;
+                }
+            }
+            &-40 {
+                width: 40%;
+                display: flex;
+                justify-content: center;
+                &_contain {
+                    width: 60%;
+                }
+            }
+        }
+    }
+    .field-row {
+        display: block;
+        &--input {
+            width: inherit;
+            &.date-picker-row {
+                .display-date {
+                    width: 100%;
+                }
+            }
+        }
+        &--label {
+            margin-bottom: 5px;
+            width: inherit;
+        }
+    }
+}

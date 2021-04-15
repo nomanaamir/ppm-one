@@ -1,10 +1,19 @@
 import React, { useState, useEffect } from 'react';
 function StatusWidget(props) {
-    const { data, activeValue, readOnlyFlag, statusSummary } = props
+    const { data, activeValue, readOnlyFlag, statusSummary, name } = props
+    const [activeStatus, setActiveStatus] = useState('')
     useEffect(() => {
         console.log('data, activeValue', data, activeValue, readOnlyFlag)
+        setActiveStatus(activeValue)
     }, []);
+    function changeStatus(e) {
+        if(readOnlyFlag === false){
 
+            setActiveStatus(e.target.value)
+            props.onSelectStatus({ name: name, value: e.target.value })
+        }
+
+    }
 
     return (
         <div className="status-widget">
@@ -24,7 +33,7 @@ function StatusWidget(props) {
                                         </div>
                                         :
                                         <div>
-                                            <input type="radio" value={item.name} checked={activeValue === item.name} readOnly={readOnlyFlag} />
+                                            <input type="radio" value={item.name} checked={activeStatus === item.name} readOnly={readOnlyFlag} onChange={changeStatus} />
                                         </div>
                                 }
                             </div>

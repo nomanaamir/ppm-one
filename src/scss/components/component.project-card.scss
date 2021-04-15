@@ -46,10 +46,18 @@
             font-size: 14px !important;
         }
         .project-state {
-            background: #43e0aa;
             width: 14px;
             height: 14px;
             border-radius: 100%;
+            &.new {
+                background: #43e0aa;
+            }
+            &.inprogress {
+                background: #f5b55d;
+            }
+            &.onhold {
+                background: #de1f44;
+            }
         }
     }
 }

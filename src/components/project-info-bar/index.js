@@ -17,16 +17,11 @@ function ProjectInfoBar(props) {
                 bucket.tasks.filter((task) => {
 
                     totalTaskChecklist = totalTaskChecklist.concat(...task.checklist)
-                    // console.log('task.checklist', [].concat(...task.checklist))
-                    // task.checklist.filter((item) => {
-                    //     console.log('item', item)
-                    //     totalTaskChecklist = [...item.checklist];
-                    // })
+                   
                 })
             }
         })
 
-        // setTimeout(() => {
         const abc = totalTaskChecklist.filter(item => {
             return item.active === false
         })
