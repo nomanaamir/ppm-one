@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-
+import { setProjectTemplate } from '../../Store/Middlewares/middlewares'
 // components
 import ProjectInfoBar from '../../components/project-info-bar/index';
 import StatusWidget from '../../components/status-widget/index';
@@ -100,7 +100,7 @@ function ProjectDetailScreen(props) {
     } else {
         summary.forEach(item => {
             if (item.name === 'overall') {
-                item.value = 'on track'
+                item.value = 'at risk'
             }
         })
 
@@ -121,6 +121,46 @@ function ProjectDetailScreen(props) {
     const selectCheckList = (bucket) => {
 
 
+    }
+    const editFinance = () => {
+        const {
+            contingency,
+            description,
+            endDate,
+            endDateDisplay,
+            fixedPrice,
+            forecastBreakdown,
+            forecastBurndownRange,
+            forecastHours,
+            name,
+            number,
+            projectServices,
+            startDate,
+            startDateDisplay,
+            timeMaterials,
+        } = project
+
+        let updatedProject = {
+            contingency,
+            description,
+            endDate,
+            endDateDisplay,
+            fixedPrice,
+            forecastBreakdown,
+            forecastBurndownRange,
+            forecastHours,
+            name,
+            number,
+            projectServices,
+            startDate,
+            startDateDisplay,
+            timeMaterials,
+        }
+        props.setProjectTemplateAction(updatedProject)
+        props.history.push({
+            pathname: '/home/add-new-project/edit-finance',
+            state: 'edit project finance'
+        })
     }
     return (
         <div className="project-detail">
@@ -164,7 +204,7 @@ function ProjectDetailScreen(props) {
 
                     <button className="widget-footer_actions--btn"> Cancel</button>
 
-                    <button className="widget-footer_actions--btn">Edit Finance</button>
+                    <button className="widget-footer_actions--btn" onClick={() => editFinance()}>Edit Finance</button>
 
                     <button className="widget-footer_actions--btn" onClick={() => props.history.push({
                         pathname: '/home/projects/edit-activity',
@@ -184,6 +224,10 @@ function mapStateToProps(state) {
         selectedProject: state.root.selected_project,
     }
 }
-
-export default connect(mapStateToProps, null)(ProjectDetailScreen);
+function mapDispatchToProps(dispatch) {
+    return ({
+        setProjectTemplateAction: (project) => { dispatch(setProjectTemplate(project)) },
+    })
+}
+export default connect(mapStateToProps, mapDispatchToProps)(ProjectDetailScreen);
 

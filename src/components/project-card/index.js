@@ -73,7 +73,7 @@ function ProjectCard(props) {
                     <div className="project-card--info">
                         <span className="project-card--info_label">Remaining:</span>
 
-                        <span className="project-card--info_value"> ${invoiced === 0 ? 0 : revenue - invoiced} </span>
+                        <span className="project-card--info_value"> ${revenue - invoiced} </span>
                     </div>
                 </div>
 
@@ -97,7 +97,7 @@ function ProjectCard(props) {
                     <div className="project-card--info">
                         <span className="project-card--info_label">Effort Remaining:</span>
 
-                        <span className="project-card--info_value"> {effortSpent === 0 ? 0 : parseInt(forecastHours) - effortSpent} </span>
+                        <span className="project-card--info_value"> {parseInt(forecastHours) - effortSpent} </span>
                     </div>
 
                 </div>

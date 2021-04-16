@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { setProjectTemplate, projectTemplate, getProjectNumber } from '../../Store/Middlewares/middlewares'
+import { setProjectTemplate, projectTemplate, getProjectNumber, clearTemplates, updateProjectFinance } from '../../Store/Middlewares/middlewares'
 import { connect } from 'react-redux';
 function AddProjectWidget(props) {
     const [startDateDisplay, setStartDateDisplay] = useState('');
@@ -28,8 +28,8 @@ function AddProjectWidget(props) {
         const { value } = e.target
 
 
+        setStartDate(value)
         const filteredDate = new Date(value)
-        setStartDate(filteredDate)
         const getDate = filteredDate.getDate();
         const getMonth = months[filteredDate.getMonth()];
         const getYear = filteredDate.getFullYear();
@@ -43,8 +43,8 @@ function AddProjectWidget(props) {
 
         const { value } = e.target
 
+        setEndDate(value)
         const filteredDate = new Date(value)
-        setEndDate(filteredDate)
 
         const getDate = filteredDate.getDate();
         const getMonth = months[filteredDate.getMonth()];
@@ -53,7 +53,7 @@ function AddProjectWidget(props) {
         setEndDateDisplay(selectedDate)
 
         // forecast burndown set dates ranges
-        let sample = getRangeDates(startDate, new Date(value));
+        let sample = getRangeDates(new Date(startDate), new Date(value));
         console.log('sample', sample)
         let duplicateSample = sample; // duplicate array to prevent changes to original array
         let populateFirstMonth = {};
@@ -161,18 +161,35 @@ function AddProjectWidget(props) {
         }
 
     }
+    const editFinance = () => {
+        const project = {
+            name: projectName,
+            forecastHours,
+            projectServices,
+            contingency,
+            timeMaterials,
+            fixedPrice,
+            startDateDisplay,
+            endDateDisplay,
+            forecastBreakdown,
+            forecastBurndownRange: dateRange,
+            startDate,
+            endDate,
+        }
+        props.updateProjectFinanceAction(props.selectedProjectKey, project)
+    }
+    const cancel = () => {
+        props.clearTemplatesAction();
+        props.getProps.history.push({
+            pathname: '/home/projects/project-list',
+            state: 'project list'
+        })
+    }
     useEffect(() => {
         props.getProjectNumberAction()
-        let number = 1;
-        let code = 'PRO';
-        let singleZero = '0';
-        let doubleZero = '00';
-        let proNum = code + doubleZero + number;
-        setProjectNumber(props.PROnumber || 'loading...')
-
-        // set template values back to field while routing change
-        const {
+        let {
             name,
+            number,
             description,
             forecastHours,
             projectServices,
@@ -186,6 +203,19 @@ function AddProjectWidget(props) {
             startDate,
             endDate
         } = projectTemplate
+        let num = 1;
+        let code = 'PRO';
+        let singleZero = '0';
+        let doubleZero = '00';
+        let proNum = code + doubleZero + num;
+        if (props.editFinance === false) {
+            setProjectNumber(props.PROnumber || 'loading...')
+        } else {
+            setProjectNumber(number)
+
+        }
+
+        // set template values back to field while routing change
         console.log('description', description)
         if (description !== undefined && description?.length !== 0) {
             let lastIndex = description.length - 1;
@@ -204,10 +234,13 @@ function AddProjectWidget(props) {
         setStartDateDisplay(startDateDisplay || '')
         setEndDateDisplay(endDateDisplay || '')
         setForecastBreakdown(forecastBreakdown?.length > 0 ? forecastBreakdown : [])
+        if (forecastBurndownRange !== undefined && forecastBurndownRange[0] === 'empty') {
+            forecastBurndownRange = []
+        }
         setDateRange(forecastBurndownRange?.length > 0 ? forecastBurndownRange : [])
         setStartDate(startDate || '')
         setEndDate(endDate || '')
-        console.log('forecastBreakdown', forecastBreakdown)
+        console.log('forecastBreakdown', startDate)
 
     }, [props]);
     return (
@@ -228,11 +261,14 @@ function AddProjectWidget(props) {
                             <div className="field-row--label">  <span>project name</span></div>
                             <div className="field-row--input"> <input type="text" value={projectName} onChange={e => setProjectName(e.target.value)} /></div>
                         </div>
-
-                        <div className="field-row description">
-                            <div className="field-row--label">  <span>description</span></div>
-                            <div className="field-row--input"> <textarea type="text" value={projectDesc} onChange={e => setProjectDesc(e.target.value)} /></div>
-                        </div>
+                        {
+                            props.editFinance === false ?
+                                <div className="field-row description">
+                                    <div className="field-row--label">  <span>description</span></div>
+                                    <div className="field-row--input"> <textarea type="text" value={projectDesc} onChange={e => setProjectDesc(e.target.value)} /></div>
+                                </div>
+                                : null
+                        }
 
                         <div className="field-row">
                             <div className="field-row--label"><span>forecast hours</span></div>
@@ -288,12 +324,12 @@ function AddProjectWidget(props) {
 
                         <div className="field-row">
                             <div className="field-row--label"> <span>start date</span></div>
-                            <div className="field-row--input small date-picker-row" > <div className="display-date">{startDateDisplay}</div> <input className="date-picker" type="date" onChange={selectStartData} /> </div>
+                            <div className="field-row--input small date-picker-row" > <div className="display-date">{startDateDisplay}</div> <input className="date-picker" value={startDate} type="date" onChange={selectStartData} /> </div>
                         </div>
 
                         <div className="field-row">
                             <div className="field-row--label"> <span>end date</span></div>
-                            <div className="field-row--input small date-picker-row"> <div className="display-date">{endDateDisplay}</div> <input className="date-picker" type="date" onChange={selectEndData} /> </div>
+                            <div className="field-row--input small date-picker-row"> <div className="display-date">{endDateDisplay}</div> <input className="date-picker" value={endDate} type="date" onChange={selectEndData} /> </div>
                         </div>
                     </div>
 
@@ -341,11 +377,11 @@ function AddProjectWidget(props) {
                                                             </div>
 
                                                             <div className="forecast-burndown_field">
-                                                                <input type="number" value={item.financial} onChange={e => item.financial = e.target.value} />
+                                                                <input type="number" defaultValue={item.financial} onChange={e => item.financial = e.target.value} />
                                                             </div>
 
                                                             <div className="forecast-burndown_field">
-                                                                <input type="number" value={item.effort} onChange={e => item.effort = e.target.value} />
+                                                                <input type="number" defaultValue={item.effort} onChange={e => item.effort = e.target.value} />
                                                             </div>
 
                                                         </div>
@@ -371,9 +407,14 @@ function AddProjectWidget(props) {
             </div>
             <div className="widget-footer">
                 <div className="widget-footer_actions">
-                    <button className="widget-footer_actions--btn">Cancel</button>
+                    <button className="widget-footer_actions--btn" onClick={() => cancel()}>Cancel</button>
+                    {
+                        props.editFinance === false ?
+                            <button className="widget-footer_actions--btn" onClick={() => saveProjectDetails()}> Next</button>
+                            :
+                            <button className="widget-footer_actions--btn" onClick={() => editFinance()}> Submit</button>
 
-                    <button className="widget-footer_actions--btn" onClick={() => saveProjectDetails()}> Next</button>
+                    }
 
                 </div>
             </div>
@@ -385,14 +426,17 @@ function AddProjectWidget(props) {
 function mapStateToProps(state) {
     console.log('Redux State - add project widget', state.root.project_number)
     return {
-        PROnumber: state.root.project_number?.projectNumber
+        PROnumber: state.root.project_number?.projectNumber,
+        selectedProjectKey: state.root.selected_project?.key,
     }
 }
 function mapDispatchToProps(dispatch) {
     return ({
         setProjectTemplateAction: (project) => { dispatch(setProjectTemplate(project)) },
 
-        getProjectNumberAction: () => { dispatch(getProjectNumber()) }
+        getProjectNumberAction: () => { dispatch(getProjectNumber()) },
+        clearTemplatesAction: () => { dispatch(clearTemplates()) },
+        updateProjectFinanceAction: (selectedProjectKey, project) => { dispatch(updateProjectFinance(selectedProjectKey, project)) }
     })
 }
 export default connect(mapStateToProps, mapDispatchToProps)(AddProjectWidget);

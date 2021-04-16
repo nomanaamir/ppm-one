@@ -187,25 +187,8 @@ export function addProject() {
                             state: 'project list'
                         })
                     })
-                    projectTemplate = {
-                        contingency: "",
-                        description: [],
-                        endDate: '',
-                        endDateDisplay: "",
-                        fixedPrice: false,
-                        forecastBreakdown: [],
-                        forecastBurndownRange: [],
-                        forecastHours: "",
-                        name: "",
-                        number: "",
-                        projectServices: "",
-                        startDate: '',
-                        startDateDisplay: "",
-                        timeMaterials: false,
-                    }
-                    bucketTemplate = []
-                    tasksTemplate = []
-                    tasks = []
+
+                    dispatch(clearTemplates())
                 })
             }
         })
@@ -214,9 +197,54 @@ export function addProject() {
     }
 }
 
+export function clearTemplates() {
+    return dispatch => {
+        projectTemplate = {
+            contingency: "",
+            description: [],
+            endDate: '',
+            endDateDisplay: "",
+            fixedPrice: false,
+            forecastBreakdown: [],
+            forecastBurndownRange: [],
+            forecastHours: "",
+            name: "",
+            number: "",
+            projectServices: "",
+            startDate: '',
+            startDateDisplay: "",
+            timeMaterials: false,
+        }
+        bucketTemplate = []
+        tasksTemplate = []
+        tasks = []
+    }
+}
+
 export function updateProjectActivity(key, updatedActivity) {
     return dispatch => {
         database.child(`projects/${key}`).update(updatedActivity).then(() => {
+            redirect.push({
+                pathname: '/home/projects/project-list',
+                state: 'project list'
+            })
+        })
+    }
+}
+
+export function updateProjectFinance(key, updatedFinance) {
+    return dispatch => {
+        if (updatedFinance.forecastBurndownRange.length === 0) {
+            updatedFinance.forecastBurndownRange = ['empty']
+        }
+        updatedFinance.forecastBurndownRange.filter(a => {
+            if (a.effort === undefined && a.financial === undefined) {
+                a.effort = '';
+                a.financial = ''
+            }
+        })
+        // console.log('key, updatedProject', key, updatedProject)
+        database.child(`projects/${key}`).update(updatedFinance).then(() => {
             redirect.push({
                 pathname: '/home/projects/project-list',
                 state: 'project list'

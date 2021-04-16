@@ -111,8 +111,8 @@ function AddTaskScreen(props) {
         const { value } = e.target
 
 
+        setStartDate(value)
         const filteredDate = new Date(value)
-        setStartDate(filteredDate)
         const getDate = filteredDate.getDate();
         const getMonth = months[filteredDate.getMonth()];
         const getYear = filteredDate.getFullYear();
@@ -121,7 +121,7 @@ function AddTaskScreen(props) {
 
         buckets.forEach(a => {
             if (selectedBucket.bucketID === a.bucketID) {
-                a.startDate = filteredDate
+                a.startDate = value
                 a.startDateDisplay = selectedDate;
             }
         })
@@ -132,8 +132,8 @@ function AddTaskScreen(props) {
 
         const { value } = e.target
 
+        setEndDate(value)
         const filteredDate = new Date(value)
-        setEndDate(filteredDate)
 
         const getDate = filteredDate.getDate();
         const getMonth = months[filteredDate.getMonth()];
@@ -143,7 +143,7 @@ function AddTaskScreen(props) {
 
         buckets.forEach(a => {
             if (selectedBucket.bucketID === a.bucketID) {
-                a.endDate = filteredDate
+                a.endDate = value;
                 a.endDateDisplay = selectedDate;
             }
         })
@@ -262,12 +262,12 @@ function AddTaskScreen(props) {
                 <div className="task-container_row--col">
                     <div className="field-row">
                         <div className="field-row--label"> <span>start date</span></div>
-                        <div className="field-row--input small date-picker-row" > <div className="display-date">{startDateDisplay}</div> <input className="date-picker" type="date" onChange={selectStartData} /> </div>
+                        <div className="field-row--input small date-picker-row" > <div className="display-date">{startDateDisplay}</div> <input className="date-picker" value={startDate} type="date" onChange={selectStartData} /> </div>
                     </div>
 
                     <div className="field-row">
                         <div className="field-row--label"> <span>end date</span></div>
-                        <div className="field-row--input small date-picker-row"> <div className="display-date">{endDateDisplay}</div> <input className="date-picker" type="date" onChange={selectEndData} />  </div>
+                        <div className="field-row--input small date-picker-row"> <div className="display-date">{endDateDisplay}</div> <input className="date-picker" value={endDate} type="date" onChange={selectEndData} />  </div>
                     </div>
                 </div>
             </div>

@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import AddProjectScreen from '../add-project/index';
 import AddBucketScreen from '../add-bucket/index';
 import AddTaskScreen from '../add-task/index';
+import EditFinanceScreen from '../edit-finance/index'
 //middlewares
 // import { getCurrentUserData, setNavigationProps } from '../../Store/Middlewares/middlewares';
 
@@ -18,10 +19,11 @@ function AddNewProjectScreen() {
     return (
         <div className="add-new-project-container" style={{ height: '100%' }}>
             {/* <Router> */}
-                {/* <Route path="/" render={() => <Redirect to="/home/add-new-project/add-project" />} /> */}
-                <Route path="/home/add-new-project/add-project" component={AddProjectScreen} />
-                <Route path="/home/add-new-project/add-bucket" component={AddBucketScreen} />
-                <Route path="/home/add-new-project/add-task" component={AddTaskScreen} />
+            {/* <Route path="/" render={() => <Redirect to="/home/add-new-project/add-project" />} /> */}
+            <Route path="/home/add-new-project/add-project" component={AddProjectScreen} />
+            <Route path="/home/add-new-project/add-bucket" component={AddBucketScreen} />
+            <Route path="/home/add-new-project/add-task" component={AddTaskScreen} />
+            <Route path="/home/add-new-project/edit-finance" component={EditFinanceScreen} />
 
 
             {/* </Router> */}

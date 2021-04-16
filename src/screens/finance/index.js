@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-
+import finance from '../../assets/finance.png'
 function FinanceScreen() {
 
     return (
         <div className="finance-container">
-            <h1>Finance Screen</h1>
+         <img src={finance} alt="finance" width="100%" height="100%" />
         </div>
     );
 }

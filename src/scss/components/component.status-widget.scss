@@ -28,9 +28,14 @@
             width: 12px;
             height: 12px;
             border-radius: 100%;
-            background: #f5b55d;
             &.ontrack {
                 background: #43e0aa;
+            }
+            &.offtrack {
+                background: #de1f44;
+            }
+            &.atrisk{
+                background: #f5b55d;
             }
             // &.success {
             //     background: #43e0aa;
