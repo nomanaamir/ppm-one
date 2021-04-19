@@ -3,8 +3,8 @@ function StatusWidget(props) {
     const { data, activeValue, readOnlyFlag, statusSummary, name } = props
     const [activeStatus, setActiveStatus] = useState('')
     useEffect(() => {
-        console.log('data, activeValue', data, activeValue, readOnlyFlag)
         setActiveStatus(activeValue)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     function changeStatus(e) {
         if(readOnlyFlag === false){

@@ -16,16 +16,14 @@
             width: 40%;
         }
         .project-info {
-            // background: red;
             padding-right: 12px;
+            min-height: 240px;
         }
         .project-budget {
-            // background: yellow;
             height: 156px;
             border-top: 1px dashed #707070;
             display: flex;
             align-items: center;
-            // padding-right: 12px;
             display: flex;
             &_col {
                 width: 50%;
@@ -91,17 +89,6 @@
                 }
             }
 
-            //   ::-webkit-scrollbar-track {
-            //     background: #f1f1f1;
-            //   }
-
-            //   ::-webkit-scrollbar-thumb {
-            //     background: #888;
-            //   }
-
-            //   ::-webkit-scrollbar-thumb:hover {
-            //     background: #555;
-            //   }
             &--col {
                 &-1 {
                     width: 80%;

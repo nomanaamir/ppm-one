@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { getProjects, setSelectedProject } from '../../Store/Middlewares/middlewares';
 import { connect } from 'react-redux';
 // project card
@@ -6,9 +6,9 @@ import ProjectCard from '../../components/project-card/index'
 function ProjectListScreen(props) {
     useEffect(() => {
         props.getProjectsAction()
+         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     const selectProject = (selectedProject) => {
-        // console.log('selectedProject', selectedProject)
         props.setSelectedProjectAction(selectedProject)
         props.history.push({
             pathname: '/home/projects/project-detail',

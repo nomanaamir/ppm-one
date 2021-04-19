@@ -4,9 +4,8 @@ function ProjectInfoBar(props) {
     const [remainingTasks, setRemainingTasks] = useState([])
 
 
-    console.log('props.projectInfo', props.projectInfo)
     const { name, startDateDisplay, endDateDisplay, forecastHours, effortSpent, buckets } = props.projectInfo;
-    // let remainingTasks = []
+
     useEffect(() => {
         let totalTaskChecklist = []
         buckets.filter((bucket) => {
@@ -18,8 +17,10 @@ function ProjectInfoBar(props) {
 
                     totalTaskChecklist = totalTaskChecklist.concat(...task.checklist)
                    
+                    return null
                 })
             }
+            return null
         })
 
         const abc = totalTaskChecklist.filter(item => {
@@ -27,6 +28,8 @@ function ProjectInfoBar(props) {
         })
         setRemainingTasks(abc)
         setTotalCheckList(totalTaskChecklist)
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
 

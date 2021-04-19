@@ -19,13 +19,13 @@ function SignInScreen(props) {
     }
     useEffect(() => {
         props.setNavigationPropsAction(history)
+         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     return (
         <div className="signInContainer">
             <div className="signInContainer_card">
                 <div className="signInContainer_card-header">
                     <img src={logo} height="36px" alt="" />
-                    {/* <h1>PPM.one</h1> */}
                     <p>Maximise your Project Portfolio Success</p>
                 </div>
 
@@ -55,7 +55,6 @@ function SignInScreen(props) {
 }
 
 function mapStateToProps(state) {
-    console.log('Redux State - SignIn Screen', state.root.signIn_success)
     return {
         isLoading: state.root.signIn_success
     }

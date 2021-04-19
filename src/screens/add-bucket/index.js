@@ -1,16 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom'
-import { setBucketTemplate, bucketTemplate } from '../../Store/Middlewares/middlewares'
+import { setBucketTemplate, bucketTemplate, clearTemplates } from '../../Store/Middlewares/middlewares'
 import { connect } from 'react-redux';
 function AddBucketScreen(props) {
-    const location = useLocation();
     const [bucketName, setBucketName] = useState('');
     const [defaultBucket, setDefaultBucket] = useState('');
     const [bucketID, setBucketID] = useState('')
 
     useEffect(() => {
-        // setBucketID(generateUniqueBucketID())
-        console.log('add bucket location-=-=-', location);
         if (bucketTemplate.length > 0) {
             let lastIndex = bucketTemplate.length - 1
             if (bucketTemplate[lastIndex].bucketName === 'To Do bucket') {
@@ -20,7 +16,6 @@ function AddBucketScreen(props) {
             }
             setBucketID(bucketTemplate[lastIndex].bucketID)
         }
-        console.log('bucketTemplate', bucketTemplate);
 
     }, []);
     const saveBucket = () => {
@@ -31,7 +26,6 @@ function AddBucketScreen(props) {
 
         }
         props.setBucketTemplateAction(bucket)
-        console.log('bucketARRAY:', bucketTemplate);
     }
     const saveBucketDetails = () => {
         if (bucketName === '' && defaultBucket === '') {
@@ -56,10 +50,13 @@ function AddBucketScreen(props) {
     const generateUniqueBucketID = () => {
         return Date.now().toString(36) + Math.random().toString(36).substr(2);
     }
-    // const setIDOfBucket = () => {
-    //     setBucketID(generateUniqueBucketID())
-
-    // }
+    const cancel = () => {
+        props.clearTemplatesAction();
+        props.history.push({
+            pathname: '/home/projects/project-list',
+            state: 'project list'
+        })
+    }
     return (
         <div className="bucket-container">
 
@@ -84,7 +81,7 @@ function AddBucketScreen(props) {
                 <div style={{ width: '50%' }}>
                     <div className="field-row">
                         <div className="field-row--label"> <span>Default Bucket</span></div>
-                        <div className="field-row--input small">  <input type="radio" value={defaultBucket} checked={defaultBucket === 'To Do bucket'} onChange={e => { { setDefaultBucket('To Do bucket'); setBucketName(''); setBucketID(generateUniqueBucketID()) } }} /></div>
+                        <div className="field-row--input small">  <input type="radio" value={defaultBucket} checked={defaultBucket === 'To Do bucket'} onChange={e => { setDefaultBucket('To Do bucket'); setBucketName(''); setBucketID(generateUniqueBucketID()) }} /></div>
                     </div>
                     <div className="field-row">
                         <div className="field-row--label"> <span>Bucket Name</span></div>
@@ -101,7 +98,7 @@ function AddBucketScreen(props) {
                         state: 'add new project'
                     })}>Previous</button>
 
-                    <button className="widget-footer_actions--btn"> Cancel</button>
+                    <button className="widget-footer_actions--btn" onClick={()=> cancel()}> Cancel</button>
 
                     <button className="widget-footer_actions--btn" onClick={() => addAnotherBucket()}>Add Another</button>
 
@@ -115,17 +112,11 @@ function AddBucketScreen(props) {
 }
 
 
-// function mapStateToProps(state) {
-//     console.log('Redux State - add project widget', state.root.user_data)
-//     return {
-//         userData: state.root.user_data
-//     }
-// }
+
 function mapDispatchToProps(dispatch) {
     return ({
         setBucketTemplateAction: (bucket) => { dispatch(setBucketTemplate(bucket)) },
-
-
+        clearTemplatesAction: () => { dispatch(clearTemplates()) },
     })
 }
 export default connect(null, mapDispatchToProps)(AddBucketScreen);

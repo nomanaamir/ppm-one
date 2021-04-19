@@ -3,10 +3,8 @@ import { connect } from 'react-redux';
 import { updateProjectActivity } from '../../Store/Middlewares/middlewares'
 
 // components
-// import ProjectInfoBar from '../../components/project-info-bar/index';
 import StatusWidget from '../../components/status-widget/index';
 import TaskChecklist from '../../components/task-checklist/index'
-// import ProjectUpdates from '../../components/project-updates/index'
 function EditActivityScreen(props) {
     const [projectNumber, setProjectNumber] = useState('');
     const [projectName, setProjectName] = useState('');
@@ -50,7 +48,7 @@ function EditActivityScreen(props) {
     const months = ['Jan', 'Feb', 'March', 'April', 'May', 'Jun', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
 
     const { key, project } = props.selectedProject
-    const { name, number, startDateDisplay, endDateDisplay, forecastHours, effortSpent, buckets, projectState, scheduleStatus, scopeStatus, budgetStatus, description } = project
+    const { name, number, forecastHours, effortSpent, buckets, projectState, scheduleStatus, scopeStatus, budgetStatus, description } = project
 
 
     const selectStatus = (selectedStatus) => {
@@ -64,29 +62,15 @@ function EditActivityScreen(props) {
             setProjectSt(selectedStatus.value)
         }
 
-        console.log('selectedStatus', selectedStatus)
 
     }
     const selectCheckList = (bucket) => {
 
-        console.log('bucket', bucket)
 
     }
     const editProjectActivity = () => {
         let newUpdate = [{ date: dateWorked, update: projectDesc }]
         let updatedDescription = isUpdateEdit === true ? description.concat(newUpdate) : description
-    
-        // console.log('projectNumber', projectNumber);
-        // console.log('projectName', projectName);
-        // console.log('forecastHrs', forecastHrs);
-        // console.log('projectDesc', isUpdateEdit === true ? description.concat(newUpdate) : description);
-        // console.log('schedule', schedule);
-        // console.log('scope', scope);
-        // console.log('projectSt', projectSt);
-
-        // console.log('budget', budget);
-        // console.log('bucket', bucket);
-        // console.log('effort', parseFloat(effort));
 
         const updatedActivity = {
             name: projectName,
@@ -98,7 +82,7 @@ function EditActivityScreen(props) {
             projectState: projectSt,
             budgetStatus: budget,
             buckets: bucket,
-            effortSpent:  parseFloat(effort)
+            effortSpent: parseFloat(effort)
         }
         props.updateProjectActivityAction(key, updatedActivity)
         setIsUpdateEdit(false)
@@ -131,6 +115,8 @@ function EditActivityScreen(props) {
         setBucket(buckets)
         setEffort(effortSpent)
         setProjectSt(projectState)
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
 
@@ -212,7 +198,10 @@ function EditActivityScreen(props) {
             <div className="widget-footer">
                 <div className="widget-footer_actions">
 
-                    <button className="widget-footer_actions--btn"> Cancel</button>
+                    <button className="widget-footer_actions--btn" onClick={() => props.history.push({
+                        pathname: '/home/projects/project-list',
+                        state: 'project list'
+                    })}> Cancel</button>
 
                     <button className="widget-footer_actions--btn" onClick={() => editProjectActivity()}>Submit</button>
 
@@ -224,7 +213,6 @@ function EditActivityScreen(props) {
 }
 
 function mapStateToProps(state) {
-    // console.log('state.root.selected_project', state.root.selected_project)
     return {
         selectedProject: state.root.selected_project,
     }

@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 
 import { logOut } from '../../Store/Middlewares/middlewares';
-import { NavLink, useLocation } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 function NavigationMenu(props) {
-    const location = useLocation();
 
     const routes = [
         {
@@ -33,10 +32,6 @@ function NavigationMenu(props) {
             path: '/home/add-new-project/add-project'
         }
     ]
-    useEffect(() => {
-
-        console.log('props-=-=-', props);
-    }, []);
     return (
         <div className="menu-container">
             <div className="menu-container_col">

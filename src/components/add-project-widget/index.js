@@ -54,7 +54,6 @@ function AddProjectWidget(props) {
 
         // forecast burndown set dates ranges
         let sample = getRangeDates(new Date(startDate), new Date(value));
-        console.log('sample', sample)
         let duplicateSample = sample; // duplicate array to prevent changes to original array
         let populateFirstMonth = {};
         if (forecastBreakdown.length === 0) {
@@ -62,8 +61,6 @@ function AddProjectWidget(props) {
         }
 
         setDateRange(sample)
-        console.log(dateRange);
-        console.log('populateFirstMonth', populateFirstMonth)
 
         // by default populate first month
         if (forecastBreakdown.length === 0) {
@@ -82,10 +79,6 @@ function AddProjectWidget(props) {
             const monthLimit = year === toYear ? toMonth : 11;
             for (; month <= monthLimit; month++) {
                 const displayMonth = months[month]
-                console.log('getMonths', getMonths)
-                console.log('dateRange', forecastBreakdown)
-                // console.log(!dateRange.includes({ year, displayMonth }))
-                // console.log(forecastBreakdown.indexOf({ year, displayMonth }))
                 if (!forecastBreakdown.some(e => ((e.year === year) && (e.displayMonth === displayMonth)))) {
                     getMonths.push({ year: year, displayMonth, financial: undefined, effort: undefined, month })
                 }
@@ -101,8 +94,6 @@ function AddProjectWidget(props) {
         let duplicateSample = sample;
         const populateFirstMonth = duplicateSample.shift();
         setDateRange(sample)
-        console.log(dateRange);
-        console.log('populateFirstMonth', populateFirstMonth)
         setForecastBreakdown(forecastBreakdown => [...forecastBreakdown, populateFirstMonth]);
 
 
@@ -153,11 +144,19 @@ function AddProjectWidget(props) {
         ) {
             alert('You must fill all requirements!')
         } else {
-            props.setProjectTemplateAction(project)
-            props.getProps.history.push({
-                pathname: '/home/add-new-project/add-bucket',
-                state: 'add new bucket'
-            })
+
+            const isempty = forecastBreakdown.some((item) => (item.financial === undefined || item.effort === undefined) || (item.financial === '' || item.effort === ''))
+            if (isempty) {
+                alert('you must fill added burndown!')
+            } else {
+                props.setProjectTemplateAction(project)
+                props.getProps.history.push({
+                    pathname: '/home/add-new-project/add-bucket',
+                    state: 'add new bucket'
+                })
+            }
+
+
         }
 
     }
@@ -176,7 +175,12 @@ function AddProjectWidget(props) {
             startDate,
             endDate,
         }
-        props.updateProjectFinanceAction(props.selectedProjectKey, project)
+        const isempty = forecastBreakdown.some((item) => (item.financial === undefined || item.effort === undefined) || (item.financial === '' || item.effort === ''))
+        if (isempty) {
+            alert('you must fill added burndown!')
+        } else {
+            props.updateProjectFinanceAction(props.selectedProjectKey, project)
+        }
     }
     const cancel = () => {
         props.clearTemplatesAction();
@@ -203,11 +207,7 @@ function AddProjectWidget(props) {
             startDate,
             endDate
         } = projectTemplate
-        let num = 1;
-        let code = 'PRO';
-        let singleZero = '0';
-        let doubleZero = '00';
-        let proNum = code + doubleZero + num;
+
         if (props.editFinance === false) {
             setProjectNumber(props.PROnumber || 'loading...')
         } else {
@@ -216,7 +216,6 @@ function AddProjectWidget(props) {
         }
 
         // set template values back to field while routing change
-        console.log('description', description)
         if (description !== undefined && description?.length !== 0) {
             let lastIndex = description.length - 1;
             let desc = description[lastIndex];
@@ -240,7 +239,6 @@ function AddProjectWidget(props) {
         setDateRange(forecastBurndownRange?.length > 0 ? forecastBurndownRange : [])
         setStartDate(startDate || '')
         setEndDate(endDate || '')
-        console.log('forecastBreakdown', startDate)
 
     }, [props]);
     return (
@@ -424,7 +422,6 @@ function AddProjectWidget(props) {
 }
 
 function mapStateToProps(state) {
-    console.log('Redux State - add project widget', state.root.project_number)
     return {
         PROnumber: state.root.project_number?.projectNumber,
         selectedProjectKey: state.root.selected_project?.key,

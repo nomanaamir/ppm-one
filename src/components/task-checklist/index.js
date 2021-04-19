@@ -1,34 +1,36 @@
 import React, { useState, useEffect } from 'react';
-import check from '../../assets/checked.png'
 function TaskChecklist(props) {
     const { buckets, readOnlyFlag } = props
     const [checklist, setChecklist] = useState([])
     useEffect(() => {
-        console.log('buckets:==>', buckets)
         let totalTaskChecklist = []
         buckets.filter((bucket) => {
             if (bucket.tasks[0] === 'empty') {
                 bucket.tasks = []
+
             }
             if (bucket.tasks.length !== 0) {
                 bucket.tasks.filter(task => {
                     task.checklist.filter(a => {
                         let obj = a;
                         obj = Object.assign({}, obj, { taskID: task.id })
-                        // console.log('objobj', obj)
                         totalTaskChecklist.push(obj)
-                        // Object.assign({}, a, { taskID: task.id })
-                    })
-                    // totalTaskChecklist = totalTaskChecklist.concat(...task.checklist)
 
+                        return null
+                    })
+
+                    return null
                 })
                 setChecklist(totalTaskChecklist);
-                console.log('totalTaskChecklist', totalTaskChecklist)
+
             }
+            return null
         })
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-    const editCheckList = (index, taskID, checklistID, selectedChecklist) => {
-        if(readOnlyFlag === false){
+    const editCheckList = (taskID, checklistID) => {
+        if (readOnlyFlag === false) {
             let newArr = checklist.map((item, i) => {
                 if (checklistID === item.id) {
                     return { ...item, active: !item.active };
@@ -37,7 +39,7 @@ function TaskChecklist(props) {
                 }
             });
             setChecklist(newArr);
-    
+
             buckets.filter(bucket => {
                 bucket.tasks.filter(task => {
                     if (task.id === taskID) {
@@ -45,40 +47,31 @@ function TaskChecklist(props) {
                             if (list.id === checklistID) {
                                 list.active = !list.active
                             }
+                            return null
+
                         })
                     }
+                    return null
+
                 })
+                return null
+
             })
             props.onSelectCheckList(buckets)
-            console.log('update buckets', buckets)
         }
-        
-        // setChecklist([]);
 
-        // console.log('selectedChecklist', selectedChecklist)
-        // checklist.filter(item => {
-        //     if (checklistID === item.id) {
-        //         item.active = true
-
-
-        //     }
-        // })
-
-        // setChecklist(checklist);
-        // console.log('checklist', checklist)
     }
 
     return (
-        <div className="task-checklist">
+        <div className="task-checklist scrollable">
             {
                 checklist.map((item, index) => {
                     return (
-                        <div className="checklist-item-row" key={index} onClick={() => editCheckList(index, item.taskID, item.id, item)}>
+                        <div className="checklist-item-row" key={index} onClick={() => editCheckList(item.taskID, item.id)}>
                             <div className={'checklist-item-row_circle ' + (item.active === true ? 'checked' : null)}>
                                 {
                                     item.active ?
                                         'L'
-                                        // <img src={check} alt="check"/>
                                         :
                                         null
                                 }

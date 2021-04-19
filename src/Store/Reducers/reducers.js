@@ -13,7 +13,7 @@ const InitialState = {
 
     selected_project: {}
 }
-export default (state = InitialState, action) => {
+const reduce = (state = InitialState, action) => {
     switch (action.type) {
         case ActionTypes.MICROSOFT_LOGIN:
             return ({ ...state, microsoft_user: action.payload });
@@ -38,3 +38,4 @@ export default (state = InitialState, action) => {
             return state;
     }
 }
+export default reduce;

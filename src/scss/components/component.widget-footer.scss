@@ -1,16 +1,13 @@
 .widget-footer {
     display: flex;
     justify-content: flex-end;
-    // padding: 0 20px;
     height: 55px;
     align-items: center;
     position: absolute;
     width: 100%;
     bottom: 0;
     .widget-footer_actions {
-        // width: 230px;
         display: flex;
-        // justify-content: space-between;
         &--btn {
             background: white;
             width: 100px;

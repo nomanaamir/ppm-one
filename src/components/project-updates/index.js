@@ -1,13 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 function ProjectUpdates(props) {
     const { updates } = props
-    useEffect(() => {
-
-    }, []);
-
 
     return (
-        <div className="project-updates">
+        <div className="project-updates scrollable">
             {
                 updates.map((item, index) => {
                     return (

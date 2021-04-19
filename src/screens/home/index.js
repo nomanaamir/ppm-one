@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 
-import { BrowserRouter as Router, Route, Switch, withRouter } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import { Redirect } from 'react-router'
 
 import { connect } from 'react-redux';
@@ -22,10 +22,11 @@ function HomeScreen(props) {
     useEffect(() => {
         props.setNavigationPropsAction(history)
         props.getCurrentUserDataAction()
+         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     return (
         <div className="Home">
-            {/* <Router> */}
+
                 <Header user={props.userData}/>
                 <div style={{ display: 'flex', minHeight: 'calc(100vh - 75px)' }}>
                     <NavigationMenu />
@@ -44,14 +45,13 @@ function HomeScreen(props) {
 
                     </div>
                 </div>
-            {/* </Router> */}
+
         </div>
     );
 }
 
 
 function mapStateToProps(state) {
-    console.log('Redux State - Home Screen', state.root.user_data)
     return {
         userData: state.root.user_data
     }

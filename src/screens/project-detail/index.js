@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { setProjectTemplate } from '../../Store/Middlewares/middlewares'
 // components
@@ -22,30 +22,10 @@ function ProjectDetailScreen(props) {
         }
     ]
     let summary = [
-        // {
-        //     name: 'overall',
-        //     value: 'at risk',
-        //     color: 'warning'
-        // },
-        // {
-        //     name: 'schedule',
-        //     value: 'at risk',
-        //     color: 'warning'
-        // },
-        // {
-        //     name: 'scope',
-        //     value: 'on track',
-        //     color: 'success'
-        // },
-        // {
-        //     name: 'budget',
-        //     value: 'at risk',
-        //     color: 'warning'
 
-        // },
     ]
 
-    const { key, project } = props.selectedProject
+    const { project } = props.selectedProject
     const { name, startDateDisplay, endDateDisplay, forecastHours, effortSpent, buckets, projectState, scheduleStatus, scopeStatus, budgetStatus, description } = project
     summary = [
         {
@@ -80,14 +60,12 @@ function ProjectDetailScreen(props) {
                 item.value = 'on track'
             }
         })
-        // summary = Object.assign({}, summary, { name: 'overall', value: 'on track' })
     } else if (atRisk.length >= 2) {
         summary.forEach(item => {
             if (item.name === 'overall') {
                 item.value = 'at risk'
             }
         })
-        // summary = Object.assign({}, summary, { name: 'overall', value: 'at risk' })
     } else if (offTrack.length >= 2) {
         summary.forEach(item => {
             if (item.name === 'overall') {
@@ -95,7 +73,6 @@ function ProjectDetailScreen(props) {
             }
         })
 
-        // summary = Object.assign({}, summary, { name: 'overall', value: 'off track' })
 
     } else {
         summary.forEach(item => {
@@ -104,15 +81,9 @@ function ProjectDetailScreen(props) {
             }
         })
 
-        // summary = Object.assign({}, summary, { name: 'overall', value: 'at risk' })
 
     }
-    console.log('summary', summary)
-    useEffect(() => {
 
-
-        // }, 3000);
-    }, []);
 
     const selectStatus = (selectedStatus) => {
 
@@ -184,7 +155,6 @@ function ProjectDetailScreen(props) {
                         <p className="project-detail-row--heading">status summary</p>
                         <StatusWidget data={summary} activeValue={''} readOnlyFlag={true} statusSummary={true} />
 
-                        {/* <StatusWidget statusSummary={true}/> */}
                     </div>
                 </div>
 
@@ -202,7 +172,10 @@ function ProjectDetailScreen(props) {
             <div className="widget-footer">
                 <div className="widget-footer_actions">
 
-                    <button className="widget-footer_actions--btn"> Cancel</button>
+                    <button className="widget-footer_actions--btn" onClick={() => props.history.push({
+                        pathname: '/home/projects/project-list',
+                        state: 'project list'
+                    })}> Cancel</button>
 
                     <button className="widget-footer_actions--btn" onClick={() => editFinance()}>Edit Finance</button>
 
@@ -219,7 +192,6 @@ function ProjectDetailScreen(props) {
 }
 
 function mapStateToProps(state) {
-    console.log('state.root.selected_project', state.root.selected_project)
     return {
         selectedProject: state.root.selected_project,
     }

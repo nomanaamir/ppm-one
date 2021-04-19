@@ -3,7 +3,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    // background: #0000006e;
     &_card {
         background-color: white;
         width: 445px;
@@ -42,7 +41,6 @@
                     outline: 0;
                     padding: 0 24px 0 17px;
                     font-size: 16px;
-                    // background-image: ;
 
                     &.email-field {
                         &[data-active="true"] {

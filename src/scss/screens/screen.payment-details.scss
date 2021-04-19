@@ -4,7 +4,6 @@
     align-items: center;
     justify-content: center;
     padding: 26px 0;
-    // background: #0000006e;
     &_heading {
         color: #707070;
         text-align: center;
@@ -14,7 +13,6 @@
     }
     &_card {
         background-color: white;
-        // width: 700px;
         width: 60%;
         border: 1px solid #666666;
         padding: 42px 0;
@@ -31,9 +29,6 @@
             }
         }
         &-body {
-            // display: flex;
-            // padding: 0 26px;
-
             display: flex;
             width: 100%;
             margin: 0 auto;
@@ -42,7 +37,6 @@
                 width: 40%;
                 .address-container {
                     width: 100%;
-                    // background: red;
                     display: flex;
                     justify-content: space-between;
                     & > .paymentDetails_col_field-container {
@@ -69,12 +63,6 @@
                             height: 36px;
                         }
                     }
-                }
-                &:first-child {
-                    // padding-right: 25px;
-                }
-                &:last-child {
-                    // padding-left: 25px;
                 }
                 &-heading {
                     color: #5a5a5a;

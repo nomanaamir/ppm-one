@@ -4,7 +4,6 @@ import firebase from 'firebase';
 let redirect = {};
 let auth = firebase.auth();
 let database = firebase.database().ref();
-let currentUser = {}
 let signUpTemplate = {}
 export let projectTemplate = {}
 export let bucketTemplate = []
@@ -17,7 +16,6 @@ export let tasks = []
 
 export function setNavigationProps(navigation) {
     return dispatch => {
-        console.log('Navigation,', navigation)
         redirect = navigation;
 
 
@@ -40,14 +38,7 @@ export function microsoftLogIn() {
                 // ...
 
                 /** @type {firebase.auth.OAuthCredential} */
-                var credential = result.credential;
 
-                // OAuth access and id tokens can also be retrieved:
-                var accessToken = credential.accessToken;
-                var idToken = credential.idToken;
-
-                console.log('accessToken', accessToken)
-                console.log('idToken', idToken)
                 const { displayName, mail } = result.additionalUserInfo.profile
                 const { uid } = result.user
                 const user = {
@@ -136,18 +127,12 @@ export function signUpSaveData(user, email, password) {
 }
 
 export function setUserData(uid, user) {
-    // Object.assign({}, user, { profileImg: url, uid: ev.user.uid })
     return dispatch => {
-        database.child(`users/${uid}`).set(Object.assign({}, user, { uid: uid })).then(() => {
-            // dispatch({ type: ActionTypes.SIGNUP_SUCCESS, payload: false })
-            // redirect.push('/dashboard')
-        })
-
+        database.child(`users/${uid}`).set(Object.assign({}, user, { uid: uid }))
     }
 }
 
 export function setUserPaymentDetails(uid, paymentDetails) {
-    // Object.assign({}, user, { profileImg: url, uid: ev.user.uid })
     return dispatch => {
         database.child(`paymentDetails/${uid}`).set(Object.assign({}, paymentDetails, { uid: uid })).then(() => {
             dispatch({ type: ActionTypes.SIGNUP_SUCCESS, payload: false })
@@ -160,11 +145,11 @@ export function setUserPaymentDetails(uid, paymentDetails) {
 export function addProject() {
     return dispatch => {
 
-        const filteredTasks = tasks.filter(a => {
+        tasks.filter(a => {
             if (a.tasks.length === 0) {
-                return a.tasks = ['empty']
+                a.tasks = ['empty']
             }
-
+            return null
         })
 
         getCurrentUser().then(user => {
@@ -176,6 +161,7 @@ export function addProject() {
                         a.effort = '';
                         a.financial = ''
                     }
+                    return null
                 })
 
 
@@ -237,18 +223,21 @@ export function updateProjectFinance(key, updatedFinance) {
         if (updatedFinance.forecastBurndownRange.length === 0) {
             updatedFinance.forecastBurndownRange = ['empty']
         }
-        updatedFinance.forecastBurndownRange.filter(a => {
-            if (a.effort === undefined && a.financial === undefined) {
-                a.effort = '';
-                a.financial = ''
-            }
-        })
-        // console.log('key, updatedProject', key, updatedProject)
+        if (updatedFinance.forecastBurndownRange !== undefined && updatedFinance.forecastBurndownRange[0] !== 'empty') {
+            updatedFinance.forecastBurndownRange.filter(a => {
+                if (a.effort === undefined && a.financial === undefined) {
+                    a.effort = '';
+                    a.financial = ''
+                }
+                return null
+            })
+        }
         database.child(`projects/${key}`).update(updatedFinance).then(() => {
             redirect.push({
                 pathname: '/home/projects/project-list',
                 state: 'project list'
             })
+            dispatch(clearTemplates())
         })
     }
 }
@@ -265,7 +254,6 @@ export function getCurrentUser() {
 export function getCurrentUserData() {
     return dispatch => {
         getCurrentUser().then(user => {
-            console.log(' getCurrentUser()', user)
             if (user) {
                 database.child(`users/${user.uid}`).on('value', ev => {
                     if (ev.val()) {
@@ -294,7 +282,6 @@ export function getProjectNumber() {
                 } else {
                     proNum = code + newNumber;
                 }
-                console.log('project number', proNum)
                 dispatch({ type: ActionTypes.GET_PROJECT_NUMBER, payload: { projectNumber: proNum } })
             } else {
                 dispatch({ type: ActionTypes.GET_PROJECT_NUMBER, payload: { projectNumber: '001' } })
@@ -308,12 +295,12 @@ export function getProjects() {
     return dispatch => {
         dispatch({ type: ActionTypes.GET_PROJECTS, payload: { projects: {}, loading: true } })
         database.child('projects').on('value', ev => {
-            console.log('ev.val()', ev.val())
             let obj = ev.val()
             Object.keys(obj).filter(key => {
                 if (obj[key].projectState === 'complete') {
                     delete obj[key]
                 }
+                return null
 
             })
             if (ev.val()) {
@@ -359,9 +346,9 @@ export function setTasksTemplate(tasks) {
         tasksTemplate = tasks
     }
 }
-export function setTasks(tasks) {
+export function setTasks(task) {
     return dispatch => {
-        tasks = tasks
+        tasks = task
     }
 }
 export function setSelectedProject(selectedProject) {
@@ -370,7 +357,6 @@ export function setSelectedProject(selectedProject) {
     }
 }
 export function logOut() {
-    // Object.assign({}, user, { profileImg: url, uid: ev.user.uid })
     return dispatch => {
         auth.signOut().then(() => {
             redirect.push('/')

@@ -9,7 +9,6 @@ function Header(props) {
 
     useEffect(() => {
         const { state } = location
-        console.log('header', location);
         setScreenName(state)
     }, [location]);
     return (

@@ -1,12 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 
 import { logOut } from '../../Store/Middlewares/middlewares';
 
 function DashboardScreen() {
-    useEffect(() => {
-
-    }, []);
     return (
         <div className="dashboardContainer">
             <h2>Dashboard Screen</h2>

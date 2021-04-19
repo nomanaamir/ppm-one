@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import { bucketTemplate, tasks, setTasks, addProject } from '../../Store/Middlewares/middlewares'
+import { bucketTemplate, tasks, setTasks, addProject, clearTemplates } from '../../Store/Middlewares/middlewares'
 import { connect } from 'react-redux';
 
 
 function AddTaskScreen(props) {
-    const location = useLocation();
     const [checklist, setChecklist] = useState([])
     const [writeChecklist, setWriteChecklist] = useState('')
     const [taskName, setTaskName] = useState('')
@@ -27,34 +25,9 @@ function AddTaskScreen(props) {
     useEffect(() => {
         setBuckets([])
 
-        console.log('add task location-=-=-', location);
-        console.log('bucketTemplate', bucketTemplate)
         setBucketList(bucketTemplate)
         setSelectedBucket(bucketTemplate[0]);
         setBuckets(tasks)
-        // bucketTemplate.forEach(element => {
-
-        //     setBuckets(buckets => [...buckets,
-        //     {
-        //         bucketName: element.bucketName,
-        //         bucketID: element.bucketID,
-        //         startDate: '',
-        //         endDate: '',
-        //         startDateDisplay: '',
-        //         endDateDisplay: '',
-        //         tasks: []
-
-        //         // {
-        //         //     taskName: '',
-        //         //     checklist: []
-        //         // }
-
-        //     }
-        //     ])
-
-
-        // });
-        console.log('buckets useEffect', buckets)
 
     }, []);
     const addNewCheckList = () => {
@@ -66,45 +39,24 @@ function AddTaskScreen(props) {
 
         buckets.forEach(a => {
             if (selectedBucket.bucketID === a.bucketID) {
-                // if (a.tasks.length === 0) {
-                //     a.tasks.push(Object.assign({}, { name: taskName, checklist: [{ checklist: writeChecklist, active: false }] }))
-                //     alert('Init')
-                // } else {
+
                 if ((a.tasks.length === 0) || !(a.tasks.some(a => a.name === taskName))) {
                     a.tasks.push(Object.assign({}, { name: taskName, id: generateTaskID(), checklist: [{ checklist: writeChecklist, id: generateCheckListID(), active: false }] }))
 
                 } else {
                     a.tasks.forEach(i => {
                         if (i.name === taskName) {
-                            // alert('matched')
+
                             i.checklist.push({ checklist: writeChecklist, id: generateCheckListID(), active: false })
                         }
                     });
 
                 }
-                // a.tasks.forEach(i => {
-                //     if (i.name === taskName) {
-                //         alert('matched')
-                //         i.checklist.push({ checklist: writeChecklist, active: false })
-                //     } else {
-                //         alert('Init2')
 
-                //         a.tasks.push(Object.assign({}, { name: taskName, checklist: [{ checklist: writeChecklist, active: false }] }))
-                //     }
-                // });
-                // }
-
-                // if () {
-
-                // }
-
-                // a.tasks.name = taskName
-                // a.tasks.checklist.push({ name: writeChecklist, active: false })
             }
         })
         setBuckets(buckets)
         setWriteChecklist('')
-        console.log('buckets:', buckets)
     }
     function selectStartData(e) {
 
@@ -156,29 +108,12 @@ function AddTaskScreen(props) {
         setStartDate('')
         setEndDateDisplay('')
         setStartDateDisplay('')
-        console.log('buckets', buckets)
     }
     const addAnotherNewTask = () => {
-        // const buckets = [
-        //     {
-        //         bucketName: selectedBucket.bucketName,
-        //         bucketID: selectedBucket.bucketID,
-        //         startDate,
-        //         endDate,
-        //         startDateDisplay,
-        //         endDateDisplay,
-        //         tasks: [
-        //             {
-        //                 taskName,
-        //                 checklist
-        //             }
-        //         ]
-        //     }
-        // ]
+
         props.setTasksAction(buckets)
         setTaskName('')
         setChecklist([])
-        console.log('buckets', buckets)
     }
     const submit = () => {
         const nonDefaultBuckets = buckets.filter(a => {
@@ -206,6 +141,13 @@ function AddTaskScreen(props) {
     }
     const generateTaskID = () => {
         return 'TA' + Date.now().toString(36) + Math.random().toString(36).substr(2);
+    }
+    const cancel = () => {
+        props.clearTemplatesAction();
+        props.history.push({
+            pathname: '/home/projects/project-list',
+            state: 'project list'
+        })
     }
     return (
         <div className="task-container">
@@ -255,7 +197,6 @@ function AddTaskScreen(props) {
 
 
                         </div>
-                        {/* <p>Add new task...</p> */}
                     </div>
                 </div>
 
@@ -280,7 +221,7 @@ function AddTaskScreen(props) {
                         state: 'add new bucket'
                     })}>Previous</button>
 
-                    <button className="widget-footer_actions--btn"> Cancel</button>
+                    <button className="widget-footer_actions--btn" onClick={() => cancel()}> Cancel</button>
 
                     <button className="widget-footer_actions--btn" onClick={() => addAnotherNewTask()}>Add Another</button>
 
@@ -293,17 +234,13 @@ function AddTaskScreen(props) {
     );
 }
 
-// function mapStateToProps(state) {
-//     console.log('Redux State - add project widget', state.root.user_data)
-//     return {
-//         userData: state.root.user_data
-//     }
-// }
+
 function mapDispatchToProps(dispatch) {
     return ({
         setTasksAction: (bucket) => { dispatch(setTasks(bucket)) },
+        addProjectAction: () => { dispatch(addProject()) },
+        clearTemplatesAction: () => { dispatch(clearTemplates()) },
 
-        addProjectAction: () => { dispatch(addProject()) }
     })
 }
 export default connect(null, mapDispatchToProps)(AddTaskScreen);

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import logo from '../../assets/PPMone Logo Grey and Blue.png';
 import visaLogo from '../../assets/visa.png';
 
@@ -54,7 +54,6 @@ function PaymentDetailsScreen(props) {
             [$1, $2, $3, $4].filter(group => !!group).join(' ')
         )
         setCardNumber(cardNum)
-        console.log(cardNum)
 
     }
 
@@ -62,7 +61,6 @@ function PaymentDetailsScreen(props) {
         const { value } = e.target
         const expiry = value.replace(/^(\d\d)(\d)$/g, '$1/$2').replace(/^(\d\d\/\d\d)(\d+)$/g, '$1/$2');
         setExpiryDate(expiry)
-        console.log(expiry)
 
     }
 
@@ -176,7 +174,6 @@ function PaymentDetailsScreen(props) {
 }
 
 function mapStateToProps(state) {
-    console.log('Redux State - Payment Detail Screen', state.root.signUp_success)
     return {
         isLoading: state.root.signUp_success
     }

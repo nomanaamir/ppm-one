@@ -1,39 +1,84 @@
 import React, { useState, useEffect } from 'react';
 function ProjectCard(props) {
-    const { project, getProps, projectKey } = props
-    const { contingency, projectServices, forecastBreakdown, forecastHours, effortSpent, endDateDisplay, name, projectState } = project
-    // const getValues = []
+    const { project, projectKey } = props
+    const { scheduleStatus, scopeStatus, budgetStatus, contingency, projectServices, forecastBreakdown, forecastHours, effortSpent, endDateDisplay, name } = project
+
     const [financialSum, setFinancialSum] = useState([])
+
+    let summary = []
+    summary = [
+        {
+            name: 'overall',
+            value: ''
+        },
+        {
+            name: 'schedule',
+            value: scheduleStatus
+        },
+        {
+            name: 'scope',
+            value: scopeStatus
+        },
+        {
+            name: 'budget',
+            value: budgetStatus
+        }
+    ]
+    const onTrack = summary.filter(item => {
+        return item.value === 'on track'
+    })
+    const atRisk = summary.filter(item => {
+        return item.value === 'at risk'
+    })
+    const offTrack = summary.filter(item => {
+        return item.value === 'off track'
+    })
+    if (onTrack.length >= 2) {
+        summary.forEach(item => {
+            if (item.name === 'overall') {
+                item.value = 'on track'
+            }
+        })
+    } else if (atRisk.length >= 2) {
+        summary.forEach(item => {
+            if (item.name === 'overall') {
+                item.value = 'at risk'
+            }
+        })
+    } else if (offTrack.length >= 2) {
+        summary.forEach(item => {
+            if (item.name === 'overall') {
+                item.value = 'off track'
+            }
+        })
+
+
+    } else {
+        summary.forEach(item => {
+            if (item.name === 'overall') {
+                item.value = 'at risk'
+            }
+        })
+
+
+    }
     useEffect(() => {
         setFinancialSum([])
-        console.log('project card', projectKey)
-        console.log('forecastBreakdown', forecastBreakdown)
         const currentMonth = new Date().getMonth();
         forecastBreakdown.filter(item => {
             if (currentMonth > item.month) {
                 setFinancialSum(financialSum => [...financialSum, parseInt(item.financial)]);
 
-                // getValues.push(parseInt(item.financial))
             }
+            return null
+
         })
-        console.log('financialSum', financialSum.reduce((a, b) => a + b, 0))
+
+   
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const sumFinancialForecast = (...value) => {
-        return value.reduce((total, value) => total + value, 0);
-    }
-    // const gotoProjectDetail = () => {
-    //     // alert(projectKey)
-    //     // getProps.history.push({
-    //     //     pathname: '/home/projects/project-detail',
-    //     //     state: 'project detail'
-    //     // })
-    //     const selectedProject = {
-    //         key: projectKey,
-    //         project
-    //     }
-    //     selectProject(selectedProject)
-    // }
+
     const selectProject = () => {
         const selectedProject = {
             key: projectKey,
@@ -55,7 +100,7 @@ function ProjectCard(props) {
                     <div className="project-card--info">
                         <span className="project-card--info_label">Status:</span>
 
-                        <div className={"project-state " + projectState.replace(/\s/g, '')}> </div>
+                        <div className={"project-state " + summary[0].value.replace(/\s/g, '')}> </div>
                     </div>
 
                     <div className="project-card--info">
